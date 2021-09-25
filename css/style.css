@@ -1,0 +1,23 @@
+body {
+    position:relative;
+}
+
+.collectionRow {
+    display:grid;
+    grid-template-columns:1fr 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    column-gap:24px;
+    padding:12px 0;
+    align-items:center;
+}
+
+.collectionRow img {
+    height:52px;
+    width:52px;
+}
+
+#collectionsHeader {
+    position:sticky;
+    top:0;
+    background:white;
+    border-bottom:solid 1px #aaa;
+}

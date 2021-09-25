@@ -1,0 +1,19 @@
+{
+  "name": "crowsnest",
+  "version": "1.0.0",
+  "description": "Crow's Nest is an NFT market tracker",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nft",
+    "ethereum"
+  ],
+  "author": "Tudmotu",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "5.4.7",
+    "http-server": "13.0.2"
+  }
+}
