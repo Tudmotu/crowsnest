@@ -64,6 +64,6 @@ async function init(userAddress) {
                     <div><a href="https://opensea.io/activity/${collection.slug}" target="_blank">Activity</a></div>
                 </div>
             `;
-        })}
+        }).join('')}
     `;
 }
