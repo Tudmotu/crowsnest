@@ -46,9 +46,11 @@ async function init(userAddress) {
             <div>1-day Volume</div>
             <div></div>
         </div>
-        ${collections.sort(
-            (a, b) => b.owned_asset_count - a.owned_asset_count
-        ).map(collection => {
+        ${collections.sort((a, b) => {
+            const aVal = a.owned_asset_count * a.stats.floor_price;
+            const bVal = b.owned_asset_count * b.stats.floor_price;
+            return bVal - aVal;
+        }).map(collection => {
             const { stats } = collection;
             return `
                 <div class="collectionRow">
