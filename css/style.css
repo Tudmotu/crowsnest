@@ -2,6 +2,12 @@ body {
     position:relative;
 }
 
+#topNav {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
 .collectionRow {
     display:grid;
     grid-template-columns:1fr 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
