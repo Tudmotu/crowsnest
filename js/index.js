@@ -10,10 +10,40 @@ window.connectWallet.addEventListener('click', async () => {
 
     if (!accounts || accounts.length === 0) return;
 
+    history.pushState(null, '', '/');
     init(accounts[0]);
 });
 
-if (window.ethereum) {
+window.displayCustomAddress.addEventListener('click', () => {
+    const customAddress = window.customAddress.value;
+    history.pushState({ customAddress }, '', `?address=${customAddress}`);
+    init(customAddress);
+});
+
+window.addEventListener('popstate', e => {
+    const address = e.state && e.state.customAddress;
+
+    if (address) {
+        window.customAddress.value = address;
+        init(address);
+    }
+    else if (window.ethereum) {
+        window.customAddress.value = '';
+        initWithEthereum();
+    }
+});
+
+const searchParams = new URLSearchParams(location.search);
+if (searchParams.get('address')){
+    const address = searchParams.get('address');
+    window.customAddress.value = address;
+    init(address);
+}
+else if (window.ethereum) {
+    initWithEthereum();
+}
+
+async function initWithEthereum() {
     const signer = provider.getSigner();
 
     try {
@@ -25,8 +55,6 @@ if (window.ethereum) {
 }
 
 async function init(userAddress) {
-    window.connectWallet.hidden = true;
-
     const collections = await opensea.getCollections(userAddress);
 
     const totalMinVal = collections.reduce((sum, current) => {
