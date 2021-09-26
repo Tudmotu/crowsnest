@@ -1,7 +1,7 @@
 import { ethers } from "../node_modules/ethers/dist/ethers.esm.js";
 import * as opensea from './opensea.js';
 
-let provider = new ethers.providers.Web3Provider(window.ethereum);
+let provider;
 
 window.connectWallet.addEventListener('click', async () => {
     const accounts = await window.ethereum.request({
@@ -40,6 +40,7 @@ if (searchParams.get('address')){
     init(address);
 }
 else if (window.ethereum) {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
     initWithEthereum();
 }
 
