@@ -27,3 +27,33 @@ body {
     background:white;
     border-bottom:solid 1px #aaa;
 }
+
+@media (max-width: 960px) {
+    html, body {
+        margin:0;
+    }
+
+    .collectionRow {
+        --col-w: 80px;
+        --col-n: 10;
+        width:calc(var(--col-w) * var(--col-n));
+        grid-template-columns:repeat(80px, 10);
+        /*grid-template-columns:repeat(var(--col-w), var(--col-n));*/
+    }
+
+    #collectionList {
+        width:100vw;
+        overflow-x:auto;
+    }
+
+    header {
+        width:100vw;
+        display:flex;
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    header > * {
+        margin-bottom:12px;
+    }
+}
