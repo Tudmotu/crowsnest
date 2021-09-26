@@ -10,7 +10,7 @@ window.connectWallet.addEventListener('click', async () => {
 
     if (!accounts || accounts.length === 0) return;
 
-    history.pushState(null, '', '/');
+    history.pushState(null, '', './');
     init(accounts[0]);
 });
 
@@ -40,11 +40,12 @@ if (searchParams.get('address')){
     init(address);
 }
 else if (window.ethereum) {
-    provider = new ethers.providers.Web3Provider(window.ethereum);
     initWithEthereum();
 }
 
 async function initWithEthereum() {
+    if (!provider) provider = new ethers.providers.Web3Provider(window.ethereum);
+    ;
     const signer = provider.getSigner();
 
     try {
