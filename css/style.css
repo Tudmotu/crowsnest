@@ -2,6 +2,7 @@
 
 body {
     --c-main:#363E70;
+    --c-secondary:#5B68BD;
     --c-accent:#B722BD;
     --c-black:#1D223D;
     --c-white:#fff;
@@ -121,6 +122,11 @@ input {
     top:0;
     background-color:var(--c-white);
     border-bottom:solid 1px var(--c-grey);
+}
+
+a {
+    color:var(--c-secondary);
+    text-decoration:none;
 }
 
 @media (max-width: 960px) {

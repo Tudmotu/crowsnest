@@ -84,8 +84,16 @@ async function init(userAddress) {
             const { stats } = collection;
             return `
                 <div class="collectionRow">
-                    <div><img src="${collection.image_url}" /></div>
-                    <div>${collection.name}</div>
+                    <div>
+                        <a href="https://opensea.io/collection/${collection.slug}" target="_blank">
+                            <img src="${collection.image_url}" />
+                        </a>
+                    </div>
+                    <div>
+                        <a href="https://opensea.io/collection/${collection.slug}" target="_blank">
+                            ${collection.name}
+                        </a>
+                    </div>
                     <div>${collection.owned_asset_count}</div>
                     <div>&#x039E;${stats.floor_price.toFixed(2)}</div>
                     <div>&#x039E;${(collection.owned_asset_count * stats.floor_price).toFixed(2)}</div>
