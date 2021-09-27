@@ -64,18 +64,17 @@ async function init(userAddress) {
     }, 0).toFixed(2);
 
     window.collectionList.innerHTML = `
-        <div id="collectionsHeader" class="collectionRow">
-            <div></div>
-            <div>Name</div>
-            <div>Owned</div>
-            <div>Floor</div>
-            <div>Min. Value (&#x039E;${totalMinVal})</div>
-            <div>Avg. Price</div>
-            <div>1-day Avg. Price</div>
-            <div>Total Volume</div>
-            <div>1-day Volume</div>
-            <div></div>
-        </div>
+        <div class="listHeader"></div>
+        <div class="listHeader">Name</div>
+        <div class="listHeader">Owned</div>
+        <div class="listHeader">Floor</div>
+        <div class="listHeader">Min. Value (&#x039E;${totalMinVal})</div>
+        <div class="listHeader">Avg. Price</div>
+        <div class="listHeader">1-day Avg. Price</div>
+        <div class="listHeader">Total Volume</div>
+        <div class="listHeader">1-day Volume</div>
+        <div class="listHeader"></div>
+
         ${collections.sort((a, b) => {
             const aVal = a.owned_asset_count * a.stats.floor_price;
             const bVal = b.owned_asset_count * b.stats.floor_price;
@@ -83,26 +82,20 @@ async function init(userAddress) {
         }).map(collection => {
             const { stats } = collection;
             return `
-                <div class="collectionRow">
-                    <div>
-                        <a href="https://opensea.io/collection/${collection.slug}" target="_blank">
-                            <img src="${collection.image_url}" />
-                        </a>
-                    </div>
-                    <div>
-                        <a href="https://opensea.io/collection/${collection.slug}" target="_blank">
-                            ${collection.name}
-                        </a>
-                    </div>
-                    <div>${collection.owned_asset_count}</div>
-                    <div>&#x039E;${stats.floor_price.toFixed(2)}</div>
-                    <div>&#x039E;${(collection.owned_asset_count * stats.floor_price).toFixed(2)}</div>
-                    <div>&#x039E;${stats.average_price.toFixed(2)}</div>
-                    <div>&#x039E;${stats.one_day_average_price.toFixed(2)}</div>
-                    <div>&#x039E;${stats.total_volume.toFixed(2)}</div>
-                    <div>&#x039E;${stats.one_day_volume.toFixed(2)}</div>
-                    <div><a href="https://opensea.io/activity/${collection.slug}" target="_blank">Activity</a></div>
-                </div>
+                <a class="thumbnail" href="https://opensea.io/collection/${collection.slug}" target="_blank">
+                    <img src="${collection.image_url}" />
+                </a>
+                <a class="collectionName" href="https://opensea.io/collection/${collection.slug}" target="_blank">
+                    ${collection.name}
+                </a>
+                <div>${collection.owned_asset_count}</div>
+                <div>&#x039E;${stats.floor_price.toFixed(2)}</div>
+                <div>&#x039E;${(collection.owned_asset_count * stats.floor_price).toFixed(2)}</div>
+                <div>&#x039E;${stats.average_price.toFixed(2)}</div>
+                <div>&#x039E;${stats.one_day_average_price.toFixed(2)}</div>
+                <div>&#x039E;${stats.total_volume.toFixed(2)}</div>
+                <div>&#x039E;${stats.one_day_volume.toFixed(2)}</div>
+                <div><a href="https://opensea.io/activity/${collection.slug}" target="_blank">Activity</a></div>
             `;
         }).join('')}
     `;
