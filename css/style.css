@@ -231,10 +231,23 @@ a {
         margin-bottom:2rem;
     }
 
+    #connectWallet {
+        margin:0 auto;
+    }
+
     #controlsSeparator {
         width:100%;
         margin:0;
         margin-top:1rem;
         margin-bottom:2rem;
+        text-align:center;
+    }
+
+    #controls .input {
+        margin-left:auto;
+    }
+
+    #displayCustomAddress {
+        margin-right:auto;
     }
 }
