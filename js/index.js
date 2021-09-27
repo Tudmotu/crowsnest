@@ -57,18 +57,28 @@ async function initWithEthereum() {
 }
 
 async function init(userAddress) {
+    const ethLogo = `<img src="../eth.svg" class="ethLogo" />`;
     const collections = await opensea.getCollections(userAddress);
 
+    const totalOwned = collections.reduce((sum, curr) => sum + curr.owned_asset_count, 0);
     const totalMinVal = collections.reduce((sum, current) => {
         return sum + current.owned_asset_count * current.stats.floor_price;
     }, 0).toFixed(2);
+    const totalAvgVal = collections.reduce((sum, current) => {
+        return sum + current.owned_asset_count * current.stats.one_day_average_price;
+    }, 0).toFixed(2);
+
+    window.statTotalOwned.querySelector('.statValue').textContent = totalOwned;
+    window.statMinValue.querySelector('.statValue').innerHTML = `${ethLogo}${totalMinVal}`;
+    window.statAvgValue.querySelector('.statValue').innerHTML = `${ethLogo}${totalAvgVal}`;
+    window.statCollections.querySelector('.statValue').textContent = collections.length;
 
     window.collectionList.innerHTML = `
         <div class="listHeader"></div>
         <div class="listHeader">Name</div>
         <div class="listHeader">Owned</div>
         <div class="listHeader">Floor</div>
-        <div class="listHeader">Min. Value (&#x039E;${totalMinVal})</div>
+        <div class="listHeader">Min. Value</div>
         <div class="listHeader">Avg. Price</div>
         <div class="listHeader">1-day Avg. Price</div>
         <div class="listHeader">Total Volume</div>

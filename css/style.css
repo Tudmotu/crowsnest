@@ -7,7 +7,9 @@ body {
     --c-black:#1D223D;
     --c-white:#fff;
     --c-green:#47702B;
+    --c-purple:#513B70;
     --c-grey:#E1E2E6;
+    --c-dark-grey:#6A6E88;
     --c-offwhite:#FAFBFF;
     --c-bg:var(--c-offwhite);
     --page-padding:2rem;
@@ -73,6 +75,65 @@ input {
     font-weight:bold;
     margin:0 1rem;
     align-self:center;
+}
+
+#stats {
+    display:flex;
+    padding:2rem var(--page-padding);
+    padding-bottom:0;
+    width:100vw;
+    overflow-x:auto;
+    align-items:stretch;
+}
+
+#stats .statCard {
+    border:solid 1px var(--c-grey);
+    border-left:0;
+    box-shadow:inset 2rem 0 var(--stat-color);
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:space-between;
+    margin-right:2rem;
+}
+
+#stats .statCard .statTitle {
+    color:var(--c-dark-grey);
+    font-size:1rem;
+    padding:0 3rem;
+    padding-top:.5rem;
+    text-align:left;
+}
+
+#stats .statCard .statValue {
+    color:var(--stat-color);
+    text-align:right;
+    font-size:5rem;
+    padding:0 1rem;
+    padding-left:3rem;
+    line-height:1;
+    white-space:nowrap;
+}
+
+#stats .statCard .statValue .ethLogo {
+    width:.5em;
+    height:.5em;
+}
+
+#statTotalOwned {
+    --stat-color:var(--c-green);
+}
+
+#statMinValue {
+    --stat-color:var(--c-black);
+}
+
+#statAvgValue {
+    --stat-color:var(--c-black);
+}
+
+#statCollections {
+    --stat-color:var(--c-purple);
 }
 
 #collectionList {
@@ -156,7 +217,7 @@ a {
     #controls {
         width:100vw;
         display:flex;
-        align-items:flex-start;
+        align-items:center;
         flex-wrap:wrap;
         margin-bottom:2rem;
     }
