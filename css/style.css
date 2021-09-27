@@ -1,38 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+
 body {
+    --c-main:#363E70;
+    --c-accent:#B722BD;
+    --c-black:#1D223D;
+    --c-white:#fff;
+    --c-green:#47702B;
+    --c-grey:#E1E2E6;
+    --c-offwhite:#FAFBFF;
+    --c-bg:var(--c-offwhite);
+    --page-padding:2rem;
+
     position:relative;
+    margin:0;
+    color:var(--c-black);
+    background-color:var(--c-bg);
+    /*font-family:"Source Sans Pro";*/
+    font-family:"Fira Sans";
+}
+
+input,
+button {
+    appearance:none;
+    border:solid 1px currentColor;
+    color:var(--c-main);
+    font-family:"Fira Sans";
+    padding:.5rem 1rem;
+}
+
+button {
+    text-transform:uppercase;
+    background:transparent;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover {
+    background-color:var(--c-grey);
 }
 
 #topNav {
     display:flex;
     justify-content:space-between;
     align-items:center;
+    color:var(--c-white);
+    background-color:var(--c-black);
+    padding:0 var(--page-padding);
+}
+
+#controls {
+    padding:0 var(--page-padding);
+    padding-top:4rem;
+}
+
+#collectionList {
+    --border-radius:1rem;
+    --border:solid 1px var(--c-grey);
+    --margin:var(--page-padding);
+    margin:var(--margin);
+    border:var(--border);
+    background-color:var(--c-white);
 }
 
 .collectionRow {
     display:grid;
     grid-template-columns:1fr 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    column-gap:24px;
-    padding:12px 0;
+    column-gap:2rem;
+    padding:1rem;
     align-items:center;
 }
 
 .collectionRow img {
-    height:52px;
-    width:52px;
+    height:4rem;
+    width:4rem;
 }
 
 #collectionsHeader {
     position:sticky;
     top:0;
-    background:white;
-    border-bottom:solid 1px #aaa;
+    background-color:var(--c-white);
+    border-bottom:solid 1px var(--c-grey);
 }
 
 @media (max-width: 960px) {
-    html, body {
-        margin:0;
-    }
-
     .collectionRow {
         --col-w: 80px;
         --col-n: 10;
@@ -42,18 +93,21 @@ body {
     }
 
     #collectionList {
+        --margin:0;
+        border-left:0;
+        border-right:0;
         width:100vw;
         overflow-x:auto;
     }
 
-    header {
+    #controls {
         width:100vw;
         display:flex;
         align-items:flex-start;
         flex-direction:column;
     }
 
-    header > * {
+    #controls > * {
         margin-bottom:12px;
     }
 }
