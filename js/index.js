@@ -57,7 +57,7 @@ async function initWithEthereum() {
 }
 
 async function init(userAddress) {
-    const ethLogo = `<img src="../eth.svg" class="ethLogo" />`;
+    const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
     const collections = await opensea.getCollections(userAddress);
 
     const totalOwned = collections.reduce((sum, curr) => sum + curr.owned_asset_count, 0);
