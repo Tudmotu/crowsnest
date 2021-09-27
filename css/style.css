@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
 
 body {
@@ -16,8 +15,10 @@ body {
     margin:0;
     color:var(--c-black);
     background-color:var(--c-bg);
-    /*font-family:"Source Sans Pro";*/
     font-family:"Fira Sans";
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
 }
 
 input,
@@ -27,17 +28,24 @@ button {
     color:var(--c-main);
     font-family:"Fira Sans";
     padding:.5rem 1rem;
+    background:transparent;
 }
 
 button {
     text-transform:uppercase;
-    background:transparent;
     font-weight:bold;
     cursor:pointer;
 }
 
 button:hover {
     background-color:var(--c-grey);
+}
+
+input {
+    border-width:0px 0px 1px 0px;
+    padding-left:0;
+    padding-bottom:.25rem;
+    padding-top:.75rem;
 }
 
 #topNav {
@@ -52,6 +60,18 @@ button:hover {
 #controls {
     padding:0 var(--page-padding);
     padding-top:4rem;
+    display:flex;
+    box-sizing:border-box;
+}
+
+#controls .input {
+    margin-right:1rem;
+}
+
+#controlsSeparator {
+    font-weight:bold;
+    margin:0 1rem;
+    align-self:center;
 }
 
 #collectionList {
@@ -61,6 +81,26 @@ button:hover {
     margin:var(--margin);
     border:var(--border);
     background-color:var(--c-white);
+}
+
+.input {
+    position:relative;
+    display:inline-block;
+}
+
+.input input:focus {
+    outline:none;
+}
+
+.input > span {
+    --size:.75rem;
+    --pad-y:calc(var(--size) / 2);
+    --pad-x:0;
+    position:absolute;
+    top:calc(-1 * var(--size) / 2 - var(--pad-y));
+    left:0;
+    font-size:var(--size);
+    padding:var(--pad-y) var(--pad-x);
 }
 
 .collectionRow {
@@ -89,7 +129,6 @@ button:hover {
         --col-n: 10;
         width:calc(var(--col-w) * var(--col-n));
         grid-template-columns:repeat(80px, 10);
-        /*grid-template-columns:repeat(var(--col-w), var(--col-n));*/
     }
 
     #collectionList {
@@ -104,10 +143,14 @@ button:hover {
         width:100vw;
         display:flex;
         align-items:flex-start;
-        flex-direction:column;
+        flex-wrap:wrap;
+        margin-bottom:2rem;
     }
 
-    #controls > * {
-        margin-bottom:12px;
+    #controlsSeparator {
+        width:100%;
+        margin:0;
+        margin-top:1rem;
+        margin-bottom:2rem;
     }
 }
