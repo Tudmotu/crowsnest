@@ -99,12 +99,12 @@ async function init(userAddress) {
                     ${collection.name}
                 </a>
                 <div>${collection.owned_asset_count}</div>
-                <div>&#x039E;${stats.floor_price.toFixed(2)}</div>
-                <div>&#x039E;${(collection.owned_asset_count * stats.floor_price).toFixed(2)}</div>
-                <div>&#x039E;${stats.average_price.toFixed(2)}</div>
-                <div>&#x039E;${stats.one_day_average_price.toFixed(2)}</div>
-                <div>&#x039E;${stats.total_volume.toFixed(2)}</div>
-                <div>&#x039E;${stats.one_day_volume.toFixed(2)}</div>
+                <div>${ethLogo}${stats.floor_price.toFixed(2)}</div>
+                <div>${ethLogo}${(collection.owned_asset_count * stats.floor_price).toFixed(2)}</div>
+                <div>${ethLogo}${stats.average_price.toFixed(2)}</div>
+                <div>${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
+                <div>${ethLogo}${stats.total_volume.toFixed(2)}</div>
+                <div>${ethLogo}${stats.one_day_volume.toFixed(2)}</div>
                 <div><a href="https://opensea.io/activity/${collection.slug}" target="_blank">Activity</a></div>
             `;
         }).join('')}

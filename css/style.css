@@ -115,11 +115,6 @@ input {
     white-space:nowrap;
 }
 
-#stats .statCard .statValue .ethLogo {
-    width:.5em;
-    height:.5em;
-}
-
 #statTotalOwned {
     --stat-color:var(--c-green);
 }
@@ -187,9 +182,15 @@ input {
     display:flex;
 }
 
-#collectionList img {
+#collectionList .thumbnail img {
     height:4rem;
     width:4rem;
+}
+
+#collectionList > :not(.collectionName, .listHeader) {
+    white-space:nowrap;
+    display:flex;
+    align-items:center;
 }
 
 #collectionsHeader {
@@ -197,6 +198,13 @@ input {
     top:0;
     background-color:var(--c-white);
     border-bottom:solid 1px var(--c-grey);
+}
+
+.ethLogo {
+    width:.5em;
+    height:.5em;
+    min-width:1rem;
+    min-height:1rem;
 }
 
 a {
