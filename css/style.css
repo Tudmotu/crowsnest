@@ -84,6 +84,7 @@ input {
     width:100vw;
     overflow-x:auto;
     align-items:stretch;
+    box-sizing:border-box;
 }
 
 #stats .statCard {
