@@ -3,11 +3,12 @@
 body {
     --c-main:#363E70;
     --c-secondary:#5B68BD;
+    --c-light:#798BFC;
     --c-accent:#B722BD;
     --c-black:#1D223D;
     --c-white:#fff;
     --c-green:#47702B;
-    --c-purple:#513B70;
+    --c-purple:#673EA3;
     --c-grey:#E1E2E6;
     --c-dark-grey:#6A6E88;
     --c-offwhite:#FAFBFF;
@@ -53,11 +54,30 @@ input {
 
 #topNav {
     display:flex;
-    justify-content:space-between;
     align-items:center;
     color:var(--c-white);
-    background-color:var(--c-black);
+    background-color:var(--c-main);
     padding:0 var(--page-padding);
+    height:4rem;
+}
+
+#title {
+    margin-right:auto;
+}
+
+#topNav a {
+    color:var(--c-light);
+    text-decoration:underline;
+}
+
+#ghLink {
+    background-image:url('../gh.png');
+    background-size:contain;
+    background-position:center;
+    background-repeat:no-repeat;
+    width:1.5rem;
+    height:1.5rem;
+    margin-left:1rem;
 }
 
 #controls {
@@ -75,6 +95,7 @@ input {
     font-weight:bold;
     margin:0 1rem;
     align-self:center;
+    color:var(--c-main);
 }
 
 #stats {
