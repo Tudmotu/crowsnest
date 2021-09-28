@@ -80,9 +80,20 @@ input {
     margin-left:1rem;
 }
 
+#pageTitle {
+    display:flex;
+    align-items:center;
+    padding:1rem var(--page-padding);
+}
+
+#pageTitle > img {
+    width:1em;
+    height:1em;
+    margin-right:1rem;
+}
+
 #controls {
-    padding:0 var(--page-padding);
-    padding-top:4rem;
+    padding:2rem var(--page-padding);
     display:flex;
     box-sizing:border-box;
 }
@@ -254,6 +265,7 @@ a {
         align-items:center;
         flex-wrap:wrap;
         margin-bottom:2rem;
+        padding-top:0;
     }
 
     #connectWallet {
