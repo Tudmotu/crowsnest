@@ -18,15 +18,15 @@
         </nav>
         <main id="app">
             <header id="controls">
-                <button id="connectWallet">Display Mine</button>
-                <span id="controlsSeparator">&mdash;&nbsp;OR&nbsp;&mdash;</span>
+                <button id="connectWallet" class="hidden">Display Mine</button>
+                <span id="controlsSeparator" class="hidden">&mdash;&nbsp;OR&nbsp;&mdash;</span>
                 <label class="input">
                     <span>Custom Address</span>
                     <input id="customAddress" type="text" />
                 </label>
                 <button id="displayCustomAddress">Show</button>
             </header>
-            <section id="stats">
+            <section id="stats" class="hidden">
                 <div id="statTotalOwned" class="statCard">
                     <span class="statTitle">Total Owned</span>
                     <span class="statValue">--</span>
@@ -44,7 +44,7 @@
                     <span class="statValue">--</span>
                 </div>
             </section>
-            <section id="collectionList">
+            <section id="collectionList" class="hidden">
             </section>
         </main>
         <script src="./js/index.js" type="module" async></script>

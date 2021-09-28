@@ -44,12 +44,15 @@ else if (window.ethereum) {
 }
 
 async function initWithEthereum() {
+    window.stats.classList.add('hidden');
+    window.collectionList.classList.add('hidden');
+
     if (!provider) provider = new ethers.providers.Web3Provider(window.ethereum);
-    ;
     const signer = provider.getSigner();
 
     try {
         init(await signer.getAddress());
+        window.customAddress.value = '';
     }
     catch (e) {
         console.log('Ethereum wallet exists, not connected');
@@ -57,6 +60,11 @@ async function initWithEthereum() {
 }
 
 async function init(userAddress) {
+    if (window.ethereum) {
+        window.connectWallet.classList.remove('hidden');
+        window.controlsSeparator.classList.remove('hidden');
+    }
+
     const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
     const collections = await opensea.getCollections(userAddress);
 
@@ -109,4 +117,7 @@ async function init(userAddress) {
             `;
         }).join('')}
     `;
+
+    window.stats.classList.remove('hidden');
+    window.collectionList.classList.remove('hidden');
 }

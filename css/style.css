@@ -208,6 +208,10 @@ input {
     min-height:1rem;
 }
 
+.hidden {
+    display:none!important;
+}
+
 a {
     color:var(--c-secondary);
     text-decoration:none;
