@@ -1,5 +1,6 @@
 import { ethers } from "../node_modules/ethers/dist/ethers.esm.js";
 import * as opensea from './opensea.js';
+import * as analytics from './analytics.js';
 
 let provider;
 
@@ -11,13 +12,14 @@ window.connectWallet.addEventListener('click', async () => {
     if (!accounts || accounts.length === 0) return;
 
     history.pushState(null, '', './');
-    init(accounts[0]);
+    initWithEthereum();
 });
 
 window.displayCustomAddress.addEventListener('click', () => {
     const customAddress = window.customAddress.value;
     history.pushState({ customAddress }, '', `?address=${customAddress}`);
     init(customAddress);
+    analytics.initFromQueryParam(address);
 });
 
 window.addEventListener('popstate', e => {
@@ -38,9 +40,16 @@ if (searchParams.get('address')){
     const address = searchParams.get('address');
     window.customAddress.value = address;
     init(address);
+    analytics.initFromQueryParam(address);
 }
 else if (window.ethereum) {
     initWithEthereum();
+}
+
+if (window.ethereum) {
+    window.connectWallet.classList.remove('hidden');
+    window.controlsSeparator.classList.remove('hidden');
+    analytics.walletExists();
 }
 
 async function initWithEthereum() {
@@ -51,11 +60,14 @@ async function initWithEthereum() {
     const signer = provider.getSigner();
 
     try {
-        init(await signer.getAddress());
+        const address = await signer.getAddress();
+        init(address);
+        analytics.walletConnected(address);
         window.customAddress.value = '';
     }
     catch (e) {
         console.log('Ethereum wallet exists, not connected');
+        analytics.walletExistsNotConnected();
     }
 }
 
