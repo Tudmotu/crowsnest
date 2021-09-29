@@ -84,12 +84,19 @@ input {
     margin-left:1rem;
 }
 
-#pageTitle {
+#pageHeader {
     display:flex;
     align-items:center;
-    padding:3rem var(--page-padding);
-    margin:0;
+    padding:1rem var(--page-padding);
     background:var(--c-grey);
+    margin-bottom:2rem;
+}
+
+#pageTitle {
+    margin:0;
+    margin-right:auto;
+    display:flex;
+    align-items:center;
 }
 
 #pageTitle > img {
@@ -299,6 +306,15 @@ a {
         --page-padding:1rem;
     }
 
+    #pageHeader {
+        flex-wrap:wrap;
+        align-items:stretch;
+    }
+
+    #pageTitle {
+        margin:auto;
+    }
+
     #collectionList {
         --margin:0;
         border-left:0;
@@ -313,8 +329,6 @@ a {
         display:flex;
         align-items:center;
         flex-wrap:wrap;
-        margin-bottom:2rem;
-        padding-top:0;
     }
 
     #connectWallet {
