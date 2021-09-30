@@ -25,7 +25,7 @@ window.displayCustomAddress.addEventListener('click', () => {
     const customAddress = window.customAddress.value;
     history.pushState({ customAddress }, '', `?address=${customAddress}`);
     init(customAddress);
-    analytics.initFromQueryParam(address);
+    analytics.initFromQueryParam(customAddress);
 });
 
 window.addEventListener('popstate', e => {
