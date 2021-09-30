@@ -3,6 +3,7 @@ import '../node_modules/chart.js/dist/chart.js';
 import '../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js';
 import * as opensea from './opensea.js';
 import * as analytics from './analytics.js';
+import * as Icons from './icons.js';
 
 let provider;
 
@@ -57,6 +58,33 @@ if (window.ethereum) {
     analytics.walletExists();
 }
 
+window.collectionList.addEventListener('click', e => {
+    const menuButton = e.target.closest('.collectionMenuButton');
+    const { collection } = menuButton.dataset;
+    if (menuButton) {
+        const rect = menuButton.getBoundingClientRect();
+        const top = window.scrollY + rect.top;
+        const left = window.scrollX + rect.left;
+        const container = document.createElement('div');
+        container.id = 'collectionListMenuContainer';
+        container.innerHTML = `
+            <div id="collectionListMenu" style="top:${top}px;left:${left}px">
+                <div class="disabled">Sales Data ${Icons.barChart}</div>
+                <a href="https://opensea.io/activity/${collection}" target="_blank">
+                    Activity ${Icons.externalLink}
+                </a>
+            </div>
+        `;
+
+        container.addEventListener('click', e => {
+            if (e.target.closest('#collectionListMenu')) return;
+            document.body.removeChild(container);
+        });
+
+        document.body.appendChild(container);
+    }
+});
+
 async function initWithEthereum() {
     window.stats.classList.add('hidden');
     window.collectionList.classList.add('hidden');
@@ -100,6 +128,7 @@ async function init(userAddress) {
 
     window.collectionList.innerHTML = `
         <div class="listHeader"></div>
+        <div class="listHeader"></div>
         <div class="listHeader">Name</div>
         <div class="listHeader">Owned</div>
         <div class="listHeader">Floor</div>
@@ -108,7 +137,6 @@ async function init(userAddress) {
         <div class="listHeader">1-day Avg. Price</div>
         <div class="listHeader">Total Volume</div>
         <div class="listHeader">1-day Volume</div>
-        <div class="listHeader"></div>
 
         ${collections.sort((a, b) => {
             const aVal = a.owned_asset_count * a.stats.floor_price;
@@ -117,6 +145,7 @@ async function init(userAddress) {
         }).map(collection => {
             const { stats } = collection;
             return `
+                <div class="collectionMenuButton" data-collection="${collection.slug}">${Icons.menuDots}</div>
                 <a class="thumbnail" href="https://opensea.io/collection/${collection.slug}" target="_blank">
                     <img src="${collection.image_url}" />
                 </a>
@@ -130,7 +159,6 @@ async function init(userAddress) {
                 <div>${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
                 <div>${ethLogo}${stats.total_volume.toFixed(2)}</div>
                 <div>${ethLogo}${stats.one_day_volume.toFixed(2)}</div>
-                <div><a href="https://opensea.io/activity/${collection.slug}" target="_blank">Activity</a></div>
             `;
         }).join('')}
     `;

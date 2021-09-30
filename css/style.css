@@ -224,10 +224,60 @@ input {
     border:var(--border);
     background-color:var(--c-white);
     display:grid;
-    grid-template-columns:5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     row-gap:1rem;
     align-items:stretch;
     box-sizing:border-box;
+    position:relative;
+}
+
+#collectionListMenuContainer {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color:transparent;
+}
+
+#collectionListMenu {
+    position:absolute;
+    margin-left:2rem;
+    width:10rem;
+    border:solid 1px var(--c-grey);
+    box-shadow:-2px 2px 2px rgba(0,0,0,.1), 2px 2px 2px rgba(0,0,0,.1);
+    background-color:var(--c-white);
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    padding:0;
+}
+
+#collectionListMenu svg {
+    height:1rem;
+    width:1rem;
+    margin-left:auto;
+}
+
+#collectionListMenu > *:not(:last-child) {
+    border-bottom:solid 1px var(--c-grey);
+}
+
+#collectionListMenu > * {
+    display:flex;
+    align-items:center;
+    padding:0 1rem;
+    height:3rem;
+    cursor:pointer;
+}
+
+#collectionListMenu svg path {
+    fill:var(--c-black);
+}
+
+#collectionListMenu > .disabled,
+#collectionListMenu > .disabled svg path {
+    --c:var(--c-dark-grey);
+    color:var(--c);
+    fill:var(--c);
 }
 
 #collectionList > .listHeader {
@@ -238,9 +288,24 @@ input {
     border-bottom:solid 1px var(--c-grey);
 }
 
-#collectionList > * {
+#collectionList > *:not(#collectionListMenu) {
     padding:0 1rem;
     box-sizing:border-box;
+}
+
+#collectionList .collectionMenuButton {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+#collectionList .collectionMenuButton svg {
+    height:1rem;
+}
+
+#collectionList .collectionMenuButton svg path {
+    fill:var(--c-black);
 }
 
 .input {
@@ -263,8 +328,9 @@ input {
     padding:var(--pad-y) var(--pad-x);
 }
 
-#collectionList .thumbnail {
+#app #collectionList .collectionMenuButton + a.thumbnail {
     display:flex;
+    padding-left:0;
 }
 
 #collectionList .thumbnail img {
@@ -272,7 +338,7 @@ input {
     width:4rem;
 }
 
-#collectionList > :not(.collectionName, .listHeader) {
+#collectionList > :not(#collectionListMenu, .collectionName, .listHeader) {
     white-space:nowrap;
     display:flex;
     align-items:center;
@@ -321,7 +387,7 @@ a {
         border-right:0;
         width:100vw;
         overflow-x:auto;
-        grid-template-columns:5rem 240px 120px 120px 120px 120px 120px 120px 120px 120px;
+        grid-template-columns:4rem 5rem 240px 120px 120px 120px 120px 120px 120px 120px;
     }
 
     #controls {
