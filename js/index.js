@@ -199,9 +199,8 @@ function renderPieChart (el, collections) {
         return sum + (c.owned_asset_count * c.stats.floor_price);
     }, 0));
 
-    const chart = new Chart(window.statCollectionPieChart, {
-        type: 'pie',
-        data: {
+    if (window.statPieChartInstance) {
+        window.statPieChartInstance.data = {
             labels,
             datasets: [
                 {
@@ -210,24 +209,40 @@ function renderPieChart (el, collections) {
                     backgroundColor: colors
                 }
             ]
-        },
-        plugins: [ChartDataLabels],
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right'
-                },
-                datalabels: {
-                    color: textColor,
-                    formatter: (value, context) => `Ξ${value.toFixed(2)}`,
-                    font: {
-                        family: '"Fira Sans"',
-                        size: 16
+        };
+        window.statPieChartInstance.update();
+    }
+    else {
+        window.statPieChartInstance = new Chart(window.statCollectionPieChart, {
+            type: 'pie',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Collections',
+                        data: series,
+                        backgroundColor: colors
+                    }
+                ]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    },
+                    datalabels: {
+                        color: textColor,
+                        formatter: (value, context) => `Ξ${value.toFixed(2)}`,
+                        font: {
+                            family: '"Fira Sans"',
+                            size: 16
+                        }
                     }
                 }
             }
-        }
-    });
+        });
+    }
 }
