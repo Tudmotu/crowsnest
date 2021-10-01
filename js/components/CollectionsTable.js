@@ -1,3 +1,4 @@
+import { SalesTab } from './SalesTab.js';
 import * as Icons from '../icons.js';
 
 export class CollectionsTable {
@@ -15,7 +16,7 @@ export class CollectionsTable {
                 container.id = 'collectionListMenuContainer';
                 container.innerHTML = `
                     <div id="collectionListMenu" style="top:${top}px;left:${left}px">
-                        <div class="disabled">Sales Data ${Icons.barChart}</div>
+                        <div data-action="sales" class="disabled">Sales Data ${Icons.barChart}</div>
                         <a href="https://opensea.io/activity/${collection}" target="_blank">
                             Activity ${Icons.externalLink}
                         </a>
@@ -27,9 +28,15 @@ export class CollectionsTable {
                     document.body.removeChild(container);
                 });
 
+                container.querySelector('[data-action=sales]').addEventListener('click', e => {
+                    this.salesTab.open(collection);
+                });
+
                 document.body.appendChild(container);
             }
         });
+
+        this.salesTab = new SalesTab(window.body);
     }
 
     render (collections) {
