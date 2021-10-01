@@ -97,9 +97,14 @@ input {
     margin-right:auto;
     display:flex;
     align-items:center;
+    color:var(--c-main);
 }
 
-#pageTitle > img {
+#pageTitle > svg path {
+    fill:var(--c-main);
+}
+
+#pageTitle > svg {
     width:1em;
     height:1em;
     margin-right:1rem;
