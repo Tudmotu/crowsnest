@@ -25,11 +25,13 @@ export async function getSalesData (collectionSlug) {
     let currentPage = 1;
 
     while (true) {
-        const url = `https://api.opensea.io/api/v1/events?collection_slug=${collectionSlug}&event_type=successful&occurred_after=${occurredAfter}&limit=${batchSize}&offset=${(currentPage - 1) * batchSize}`;
-
-        const data = await (await fetch(url)).json();
-
-        console.log(data);
+        const data = await api('events', {
+            collection_slug: collectionSlug,
+            event_type: 'successful',
+            occurred_after: occurredAfter,
+            limit: batchSize,
+            offset: (currentPage - 1) * batchSize
+        });
 
         fullResults.push(...data.asset_events);
 
