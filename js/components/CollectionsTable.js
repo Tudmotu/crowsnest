@@ -1,3 +1,4 @@
+import { SalesTab } from './SalesTab.js';
 import * as Icons from '../icons.js';
 
 export class CollectionsTable {
@@ -6,7 +7,7 @@ export class CollectionsTable {
 
         this.el.addEventListener('click', e => {
             const menuButton = e.target.closest('.collectionMenuButton');
-            const { collection } = menuButton.dataset;
+            const { collection, name, thumbnail } = menuButton.dataset;
             if (menuButton) {
                 const rect = menuButton.getBoundingClientRect();
                 const top = window.scrollY + rect.top;
@@ -15,7 +16,7 @@ export class CollectionsTable {
                 container.id = 'collectionListMenuContainer';
                 container.innerHTML = `
                     <div id="collectionListMenu" style="top:${top}px;left:${left}px">
-                        <div class="disabled">Sales Data ${Icons.barChart}</div>
+                        <div data-action="sales">Sales Data ${Icons.barChart}</div>
                         <a href="https://opensea.io/activity/${collection}" target="_blank">
                             Activity ${Icons.externalLink}
                         </a>
@@ -27,9 +28,16 @@ export class CollectionsTable {
                     document.body.removeChild(container);
                 });
 
+                container.querySelector('[data-action=sales]').addEventListener('click', e => {
+                    this.salesTab.open(collection, name, thumbnail);
+                    document.body.removeChild(container);
+                });
+
                 document.body.appendChild(container);
             }
         });
+
+        this.salesTab = new SalesTab(window.body);
     }
 
     render (collections) {
@@ -54,7 +62,11 @@ export class CollectionsTable {
             }).map(collection => {
                 const { stats } = collection;
                 return `
-                    <div class="collectionMenuButton" data-collection="${collection.slug}">${Icons.menuDots}</div>
+                    <div class="collectionMenuButton"
+                        data-collection="${collection.slug}"
+                        data-name="${collection.name}"
+                        data-thumbnail="${collection.image_url}"
+                    >${Icons.menuDots}</div>
                     <a class="thumbnail" href="https://opensea.io/collection/${collection.slug}" target="_blank">
                         <img src="${collection.image_url}" />
                     </a>

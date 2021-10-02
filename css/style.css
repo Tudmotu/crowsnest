@@ -29,6 +29,10 @@ body {
     align-items:stretch;
 }
 
+body.nooverflow {
+    overflow:hidden;
+}
+
 input,
 button {
     appearance:none;
@@ -143,7 +147,7 @@ input {
     height:calc(var(--gap) * (var(--rows) - 1) + var(--rows) * var(--row-height) + 1rem);
 }
 
-#stats .statCard {
+.statCard {
     box-shadow:inset 1rem 0 var(--stat-color);
     display:flex;
     flex-direction:column;
@@ -152,14 +156,14 @@ input {
     overflow:hidden;
 }
 
-#stats .statCard .statTitle {
+.statCard .statTitle {
     color:var(--c-dark-grey);
     font-size:1rem;
     padding:0 2rem;
     text-align:left;
 }
 
-#stats .statCard .statValue {
+.statCard .statValue {
     color:var(--stat-color);
     font-size:5rem;
     padding-right:1rem;
@@ -173,11 +177,11 @@ input {
     justify-content:flex-end;
 }
 
-#stats .statCard .statValue .ethLogo {
+.statCard .statValue .ethLogo {
     margin-bottom:.5rem;
 }
 
-#stats .statCard.smallStat .statValue {
+.statCard.smallStat .statValue {
     font-size:4rem;
 }
 
@@ -356,6 +360,154 @@ input {
     border-bottom:solid 1px var(--c-grey);
 }
 
+#salesTabContainer {
+    position:fixed;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0,0,0,.1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#salesTabPane {
+    position:relative;
+    width:30rem;
+    max-width:92vw;
+    height:50rem;
+    max-height:90vh;
+    border:solid 1px var(--c-grey);
+    box-shadow:-2px 2px 2px rgba(0,0,0,.1), 2px 2px 2px rgba(0,0,0,.1);
+    background:var(--c-white);
+    overflow:auto;
+    box-sizing:border-box;
+    display:flex;
+    align-items:stretch;
+    flex-direction:column;
+    padding-bottom:4rem;
+}
+
+#salesTabPane > header {
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+    background-color:var(--c-grey);
+    padding-top:2rem;
+    position:sticky;
+    top:0;
+}
+
+#salesTabPane > header > img {
+    width:5rem;
+    height:5rem;
+    border-radius:50%;
+    border:solid 1px var(--c-grey);
+}
+
+#salesTabPane > header > h1 {
+    color:var(--c-main);
+}
+
+#salesTabCloseButton {
+    position:absolute;
+    top:0;
+    left:0;
+    width:4rem;
+    height:4rem;
+    font-size:3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--c-dark-grey);
+    cursor:pointer;
+}
+
+#salesTabPane > header + h2 {
+    margin-top:0;
+}
+
+#salesTabPane > * {
+    padding:0 2rem;
+}
+
+#salesTabPane h2 {
+    border-top:solid 1px var(--c-grey);
+    padding-top:1rem;
+    color:var(--c-main);
+}
+
+#salesTabTotalsSection {
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:repeat(2, 4rem);
+}
+
+#salesTabPane .statCard[data-stat="total-24h"] {
+    --stat-color:var(--c-main);
+    grid-area:1 / 1 / span 2 / span 2;
+}
+
+#salesTabPane .statCard[data-stat="total-3h"] {
+    --stat-color:var(--c-secondary);
+    grid-area:1 / 3 / span 2 / span 2;
+}
+
+#salesTabPane .salesMeterContainer {
+    display:flex;
+    align-items:stretch;
+    flex-direction:column;
+}
+
+#salesTabPane .salesMeter,
+#salesTabPane .soldItems {
+    display:flex;
+    justify-content:space-between;
+}
+
+#salesTabPane .soldItems img {
+    width:5rem;
+    border:solid 1px var(--c-grey);
+    border-radius:.5rem;
+}
+
+#salesTabPane .salesMeter {
+    --bg:var(--c-grey);
+    background:linear-gradient(transparent 33%, var(--bg) 33%, var(--bg) 66%, transparent 66%);
+    background-size: calc(100% - 2rem) 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#salesTabPane .salesMeter > span {
+    --meter-color:var(--c-grey);
+    font-size:.75rem;
+    height:3rem;
+    width:3rem;
+    border-radius:50%;
+    border:solid .25rem var(--bg);
+    background:var(--meter-color);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--c-white);
+}
+
+#salesTabPane .soldItemCard  {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+#salesTabPane .soldItemData  {
+    display:flex;
+    align-items:center;
+    margin-top:.5rem;
+}
+
+#salesTabPane .salesMeter > span:nth-child(1) { --meter-color:var(--c-red); }
+#salesTabPane .salesMeter > span:nth-child(2) { --meter-color:var(--c-yellow); }
+#salesTabPane .salesMeter > span:nth-child(3) { --meter-color:var(--c-green); }
+
 .ethLogo {
     width:.75em;
     height:.75em;
@@ -433,5 +585,12 @@ a {
 
     #stats .statCard.smallStat .statValue {
         font-size:3rem;
+    }
+
+    #salesTabPane {
+        width:100vw;
+        max-width:100vw;
+        height:100vh;
+        max-height:100vh;
     }
 }
