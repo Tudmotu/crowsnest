@@ -393,6 +393,8 @@ input {
     flex-direction:column;
     background-color:var(--c-grey);
     padding-top:2rem;
+    position:sticky;
+    top:0;
 }
 
 #salesTabPane > header > img {
@@ -583,5 +585,12 @@ a {
 
     #stats .statCard.smallStat .statValue {
         font-size:3rem;
+    }
+
+    #salesTabPane {
+        width:100vw;
+        max-width:100vw;
+        height:100vh;
+        max-height:100vh;
     }
 }
