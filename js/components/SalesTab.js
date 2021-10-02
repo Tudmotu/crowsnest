@@ -64,19 +64,22 @@ export class SalesTab {
                 <div class="soldItemCard">
                     <img src="${data.low.thumbnail}" />
                     <div class="soldItemData">
-                        ${Icons.ethLogo}${data.low.price}
+                        ${Icons.ethLogo}
+                        <span>${data.low.price.toFixed(2)}</span>
                     </div>
                 </div>
                 <div class="soldItemCard">
                     <img src="${data.median.thumbnail}" />
                     <div class="soldItemData">
-                        ${Icons.ethLogo}${data.median.price}
+                        ${Icons.ethLogo}
+                        <span>${data.median.price.toFixed(2)}</span>
                     </div>
                 </div>
                 <div class="soldItemCard">
                     <img src="${data.high.thumbnail}" />
                     <div class="soldItemData">
-                        ${Icons.ethLogo}${data.high.price}
+                        ${Icons.ethLogo}
+                        <span>${data.high.price.toFixed(2)}</span>
                     </div>
                 </div>
             </div>

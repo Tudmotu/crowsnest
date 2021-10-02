@@ -22,16 +22,16 @@ function sale (id, thumbnail, price, timestamp) {
 }
 
 const sales = [
-    sale('1', '1.png', '10000000000000000', hoursAgo(1)),
-    sale('4', '4.png', '12000000000000000', hoursAgo(2.2)),
-    sale('2', '2.png', '14000000000000000', hoursAgo(1.2)),
-    sale('0', '0.png', '30000000000000000', hoursAgo(0.4)),
-    sale('6', '6.png', '45000000000000000', hoursAgo(5)),
-    sale('7', '7.png', '110000000000000000', hoursAgo(10)),
-    sale('8', '8.png', '120000000000000000', hoursAgo(14)),
-    sale('5', '5.png', '220000000000000000', hoursAgo(2.8)),
-    sale('3', '3.png', '300000000000000000', hoursAgo(1.7)),
-    sale('9', '9.png', '700000000000000000', hoursAgo(23))
+    sale('1', '1.png', '11100000000000000', hoursAgo(1)),
+    sale('4', '4.png', '12100000000000000', hoursAgo(2.2)),
+    sale('2', '2.png', '14100000000000000', hoursAgo(1.2)),
+    sale('0', '0.png', '30100000000000000', hoursAgo(0.4)),
+    sale('6', '6.png', '45100000000000000', hoursAgo(5)),
+    sale('7', '7.png', '111000000000000000', hoursAgo(10)),
+    sale('8', '8.png', '121000000000000000', hoursAgo(14)),
+    sale('5', '5.png', '221000000000000000', hoursAgo(2.8)),
+    sale('3', '3.png', '301000000000000000', hoursAgo(1.7)),
+    sale('9', '9.png', '701000000000000000', hoursAgo(23))
 ];
 
 beforeEach(() => {
@@ -39,12 +39,26 @@ beforeEach(() => {
     instance = new SalesTab(window.body);
 });
 
-//test('pane should contain 24-hours low/median/high section', async () => {
-    //opensea.getSalesData.mockResolvedValue(sales);
-    //await instance.open('crypto-test');
-    //const section = document.getElementById('salesTab24HoursSales');
-    //const blocks = [...section.querySelectorAll('.statBlock')];
-//});
+test('price points showing max 2 decimal points', async () => {
+    opensea.getSalesData.mockResolvedValue(sales);
+    await instance.open('crypto-test');
+    const pricePointSelector = (hours, i) => `#salesTab${hours}HoursSales .soldItemCard:nth-child(${i}) .soldItemData span`;
+    const getPricePoint = (hours, i) => document.querySelector(pricePointSelector(hours, i));
+
+    const low3HoursPricePoint = getPricePoint('3', '1');
+    const med3HoursPricePoint = getPricePoint('3', '2');
+    const high3HoursPricePoint = getPricePoint('3', '3');
+    const low24HoursPricePoint = getPricePoint('24', '1');
+    const med24HoursPricePoint = getPricePoint('24', '2');
+    const high24HoursPricePoint = getPricePoint('24', '3');
+
+    expect(low3HoursPricePoint).toHaveTextContent(/^0\.01$/);
+    expect(med3HoursPricePoint).toHaveTextContent(/^0\.01$/);
+    expect(high3HoursPricePoint).toHaveTextContent(/^0\.30$/);
+    expect(low24HoursPricePoint).toHaveTextContent(/^0\.01$/);
+    expect(med24HoursPricePoint).toHaveTextContent(/^0\.05$/);
+    expect(high24HoursPricePoint).toHaveTextContent(/^0\.70$/);
+});
 
 test('pane should contain "total sales" section', async () => {
     opensea.getSalesData.mockResolvedValue(sales);
@@ -89,19 +103,19 @@ test('aggregateData() method', () => {
             low: {
                 tokenId: '1',
                 thumbnail: '1.png',
-                price: 0.01,
+                price: 0.0111,
                 timestamp: new Date(sales[0].created_date + 'Z').getTime()
             },
             median: {
                 tokenId: '6',
                 thumbnail: '6.png',
-                price: 0.045,
+                price: 0.0451,
                 timestamp: new Date(sales[4].created_date + 'Z').getTime()
             },
             high: {
                 tokenId: '9',
                 thumbnail: '9.png',
-                price: 0.7,
+                price: 0.701,
                 timestamp: new Date(sales[9].created_date + 'Z').getTime()
             }
         },
@@ -110,19 +124,19 @@ test('aggregateData() method', () => {
             low: {
                 tokenId: '1',
                 thumbnail: '1.png',
-                price: 0.01,
+                price: 0.0111,
                 timestamp: new Date(sales[0].created_date + 'Z').getTime()
             },
             median: {
                 tokenId: '2',
                 thumbnail: '2.png',
-                price: 0.014,
+                price: 0.0141,
                 timestamp: new Date(sales[2].created_date + 'Z').getTime()
             },
             high: {
                 tokenId: '3',
                 thumbnail: '3.png',
-                price: 0.3,
+                price: 0.301,
                 timestamp: new Date(sales[8].created_date + 'Z').getTime()
             }
         }
