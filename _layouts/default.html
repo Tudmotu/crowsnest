@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta property="og:title" content="{{ site.title }}">
+        <meta property="og:description" content="{{ site.description }}">
+        <meta property="og:image" content="{{ site.url }}/thumbnail.png">
+        <meta property="og:url" content="{{ site.url }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta property="og:site_name" content="Crow's Nest">
+        <meta name="twitter:image:alt" content="Depiction of a list of collections organized in a table with different stats">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/style.css" />
+    </head>
+    <body>
+        <nav id="topNav">
+            <span id="title">Crow's Nest</span>
+            <span>
+                 powered by
+                 <a href="https://docs.opensea.io/" target="_blank">
+                     OpenSea API
+                 </a>
+            </span>
+            <a id="ghLink" href="https://github.com/tudmotu/crowsnest/" aria-label="Link to project github"></a>
+        </nav>
+        {{ content }}
+    </body>
+</html>
