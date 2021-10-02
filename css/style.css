@@ -371,6 +371,7 @@ input {
 }
 
 #salesTabPane {
+    position:relative;
     width:30rem;
     max-width:92vw;
     height:50rem;
@@ -403,6 +404,20 @@ input {
 
 #salesTabPane > header > h1 {
     color:var(--c-main);
+}
+
+#salesTabCloseButton {
+    position:absolute;
+    top:0;
+    left:0;
+    width:4rem;
+    height:4rem;
+    font-size:3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--c-dark-grey);
+    cursor:pointer;
 }
 
 #salesTabPane > header + h2 {

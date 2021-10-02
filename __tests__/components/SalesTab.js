@@ -35,12 +35,43 @@ const sales = [
 ];
 
 beforeEach(() => {
+    opensea.getSalesData.mockResolvedValue(sales);
     document.body.innerHTML = '';
-    instance = new SalesTab(window.body);
+    instance = new SalesTab();
+});
+
+test('clicking the close button should remove container and "nooverflow" class from body', async () => {
+    await instance.open('crypto-test');
+    const container = document.getElementById('salesTabContainer');
+    document.getElementById('salesTabCloseButton').click();
+    expect(document.body).not.toContainElement(container);
+    expect(document.body).not.toHaveClass('nooverflow');
+});
+
+test('when closed, should remove "nooverflow" class from body', async () => {
+    await instance.open('crypto-test');
+    document.getElementById('salesTabContainer').click();
+    expect(document.body).not.toHaveClass('nooverflow');
+});
+
+test('when opened, should add "nooverflow" class to body', async () => {
+    await instance.open('crypto-test');
+    expect(document.body).toHaveClass('nooverflow');
+});
+
+test('sales tab should NOT be removed when clicking inside it', async () => {
+    await instance.open('crypto-test');
+    document.getElementById('salesTabPane').click();
+    expect(document.getElementById('salesTabContainer')).not.toBe(null);
+});
+
+test('sales tab should be removed when clicking on backdrop', async () => {
+    await instance.open('crypto-test');
+    document.getElementById('salesTabContainer').click();
+    expect(document.getElementById('salesTabContainer')).toBe(null);
 });
 
 test('price points showing max 2 decimal points', async () => {
-    opensea.getSalesData.mockResolvedValue(sales);
     await instance.open('crypto-test');
     const pricePointSelector = (hours, i) => `#salesTab${hours}HoursSales .soldItemCard:nth-child(${i}) .soldItemData span`;
     const getPricePoint = (hours, i) => document.querySelector(pricePointSelector(hours, i));
@@ -61,7 +92,6 @@ test('price points showing max 2 decimal points', async () => {
 });
 
 test('pane should contain "total sales" section', async () => {
-    opensea.getSalesData.mockResolvedValue(sales);
     await instance.open('crypto-test');
     const totalsSection = document.getElementById('salesTabTotalsSection');
     const blocks = [...totalsSection.querySelectorAll('.statCard')];

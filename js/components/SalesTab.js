@@ -20,13 +20,13 @@ export class SalesTab {
 
         this.container.addEventListener('click', e => {
             if (e.target.closest('#salesTabPane')) return;
-            document.body.removeChild(this.container);
-            document.body.classList.remove('nooverflow');
+            this.close();
         });
 
         this.container.innerHTML = `
             <div id="salesTabPane">
                 <header>
+                    <div id="salesTabCloseButton">&times;</div>
                     <img src="${thumbnail}" />
                     <h1>${name}</h1>
                 </header>
@@ -51,6 +51,16 @@ export class SalesTab {
                 </section>
             </div>
         `;
+
+        const closeButton = this.container.querySelector('#salesTabCloseButton');
+        closeButton.addEventListener('click', e => {
+            this.close();
+        });
+    }
+
+    close () {
+        document.body.removeChild(this.container);
+        document.body.classList.remove('nooverflow');
     }
 
     renderSalesSection (data) {
