@@ -10,9 +10,26 @@ async function api (endpoint, params) {
 }
 
 export async function getCollections (userAddress) {
-    return api('collections', {
-        asset_owner: userAddress
-    });
+    const batchSize = 300;
+    const fullResults = [];
+    let currentPage = 1;
+
+    while (true) {
+        const data = await api('collections', {
+            asset_owner: userAddress,
+            limit: batchSize,
+            offset: (currentPage - 1) * batchSize
+        });
+
+        fullResults.push(...data);
+
+        if (data.length < batchSize) break;
+
+        await new Promise(r => setTimeout(r, 20));
+        currentPage++;
+    }
+
+    return fullResults;
 }
 
 export async function getSalesData (collectionSlug) {
