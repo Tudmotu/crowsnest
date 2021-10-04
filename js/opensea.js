@@ -25,7 +25,6 @@ export async function getCollections (userAddress) {
 
         if (data.length < batchSize) break;
 
-        await new Promise(r => setTimeout(r, 20));
         currentPage++;
     }
 
@@ -54,7 +53,6 @@ export async function getSalesData (collectionSlug) {
 
         if (data.asset_events.length < batchSize) break;
 
-        await new Promise(r => setTimeout(r, 200));
         currentPage++;
     }
 
