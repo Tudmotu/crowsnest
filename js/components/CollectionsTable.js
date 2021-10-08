@@ -40,7 +40,7 @@ export class CollectionsTable {
         this.salesTab = new SalesTab(window.body);
     }
 
-    render (collections) {
+    render (collections, investments) {
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         this.el.innerHTML = `
@@ -50,7 +50,10 @@ export class CollectionsTable {
             <div class="listHeader">Owned</div>
             <div class="listHeader">Floor</div>
             <div class="listHeader">Min. Value</div>
-            <div class="listHeader">Avg. Price</div>
+            <div class="listHeader">Possible ROI</div>
+            <div class="listHeader">Realized ROI</div>
+            <div class="listHeader">Sales</div>
+            <div class="listHeader">Investment</div>
             <div class="listHeader">1-day Avg. Price</div>
             <div class="listHeader">Total Volume</div>
             <div class="listHeader">1-day Volume</div>
@@ -60,7 +63,14 @@ export class CollectionsTable {
                 const bVal = b.owned_asset_count * b.stats.floor_price;
                 return bVal - aVal;
             }).map(collection => {
-                const { stats } = collection;
+                const { stats, slug } = collection;
+                const minValue = (collection.owned_asset_count * stats.floor_price);
+                const sales = investments[slug]?.sales ?? 0;
+                const investment = investments[slug]?.investment ?? 0;
+                const realizedRoi = investments[slug]?.realized_roi ?? 0;
+                const possibleRoi = realizedRoi + minValue;
+                const roiSentiment = realizedRoi > 0 ? 'positive' : 'negative';
+                const possibleRoiSentiment = possibleRoi > 0 ? 'positive' : 'negative';
                 return `
                     <div class="collectionMenuButton"
                         data-collection="${collection.slug}"
@@ -75,8 +85,11 @@ export class CollectionsTable {
                     </a>
                     <div>${collection.owned_asset_count}</div>
                     <div>${ethLogo}${stats.floor_price.toFixed(2)}</div>
-                    <div>${ethLogo}${(collection.owned_asset_count * stats.floor_price).toFixed(2)}</div>
-                    <div>${ethLogo}${stats.average_price.toFixed(2)}</div>
+                    <div>${ethLogo}${minValue.toFixed(2)}</div>
+                    <div data-roi="${possibleRoiSentiment}"><span>${ethLogo}${possibleRoi.toFixed(2)}</span></div>
+                    <div data-roi="${roiSentiment}"><span>${ethLogo}${realizedRoi.toFixed(2)}</span></div>
+                    <div>${ethLogo}${sales.toFixed(2)}</div>
+                    <div>${ethLogo}${investment.toFixed(2)}</div>
                     <div>${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
                     <div>${ethLogo}${stats.total_volume.toFixed(2)}</div>
                     <div>${ethLogo}${stats.one_day_volume.toFixed(2)}</div>

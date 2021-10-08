@@ -9,6 +9,44 @@ async function api (endpoint, params) {
     })).json();
 }
 
+async function getInBatches (endpoint, params, dataProp) {
+    const batchSize = 300;
+    const fullResults = [];
+    let currentPage = 0;
+
+    while (true) {
+        const response = await api(endpoint, {
+            limit: batchSize,
+            offset: currentPage * batchSize,
+            ...params
+        });
+
+        const data = dataProp ? response[dataProp] : response;
+
+        fullResults.push(...data);
+
+        if (data.length < batchSize) break;
+
+        currentPage++;
+    }
+
+    return fullResults;
+}
+
+export async function getTransfers (userAddress) {
+    return await getInBatches('events', {
+        account_address: userAddress,
+        event_type: 'transfer'
+    }, 'asset_events');
+}
+
+export async function getTrades (userAddress) {
+    return await getInBatches('events', {
+        account_address: userAddress,
+        event_type: 'successful'
+    }, 'asset_events');
+}
+
 export async function getCollections (userAddress) {
     const batchSize = 300;
     const fullResults = [];

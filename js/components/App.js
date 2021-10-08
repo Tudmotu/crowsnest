@@ -1,7 +1,8 @@
-import { ethers } from '../../node_modules/ethers/dist/ethers.esm.js';
+import { ethers, BigNumber } from '../../node_modules/ethers/dist/ethers.esm.js';
 import { PortfolioStats } from './PortfolioStats.js';
 import { CollectionsTable } from './CollectionsTable.js';
 import { Controls } from './Controls.js';
+import * as Trades from '../data/Trades.js';
 import * as opensea from '../opensea.js';
 import * as analytics from '../analytics.js';
 
@@ -77,12 +78,15 @@ export class App {
         window.stats.classList.add('hidden');
         window.collectionList.classList.add('hidden');
 
-        const collections = await opensea.getCollections(address);
+        const [collections, investments] = await Promise.all([
+            opensea.getCollections(address),
+            Trades.getInvestmentStats(address, this.provider)
+        ]);
 
         window.stats.classList.remove('hidden');
         window.collectionList.classList.remove('hidden');
 
-        this.tableComponent.render(collections);
-        this.statsComponent.render(collections);
+        this.tableComponent.render(collections, investments);
+        this.statsComponent.render(collections, investments);
     }
 };
