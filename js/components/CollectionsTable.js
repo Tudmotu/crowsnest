@@ -86,8 +86,18 @@ export class CollectionsTable {
                     <div>${collection.owned_asset_count}</div>
                     <div>${ethLogo}${stats.floor_price.toFixed(2)}</div>
                     <div>${ethLogo}${minValue.toFixed(2)}</div>
-                    <div data-roi="${possibleRoiSentiment}"><span>${ethLogo}${possibleRoi.toFixed(2)}</span></div>
-                    <div data-roi="${roiSentiment}"><span>${ethLogo}${realizedRoi.toFixed(2)}</span></div>
+                    <div data-roi="${possibleRoiSentiment}">
+                        <span>
+                            ${ethLogo}
+                            ${possibleRoiSentiment === 'positive' ? '+' : ''}${possibleRoi.toFixed(2)}
+                        </span>
+                    </div>
+                    <div data-roi="${roiSentiment}">
+                        <span>
+                            ${ethLogo}
+                            ${roiSentiment === 'positive' ? '+' : ''}${realizedRoi.toFixed(2)}
+                        </span>
+                    </div>
                     <div>${ethLogo}${sales.toFixed(2)}</div>
                     <div>${ethLogo}${investment.toFixed(2)}</div>
                     <div>${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
