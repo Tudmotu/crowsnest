@@ -55,6 +55,8 @@ export async function getInvestmentStats (address, provider) {
             };
         }
 
+        if (mint.transaction === null) continue;
+
         const txHash = mint.transaction.transaction_hash;
         mintTxsByCollection[collection].txs.add(txHash);
     }

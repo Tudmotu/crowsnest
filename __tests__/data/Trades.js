@@ -34,6 +34,15 @@ describe('getInvestmentStats()', () => {
                 }
             },
             {
+                collection_slug: 'collection-D',
+                from_account: {
+                    user: {
+                        username: 'NullAddress'
+                    }
+                },
+                transaction: null
+            },
+            {
                 collection_slug: 'collection-C',
                 from_account: {
                     user: null
