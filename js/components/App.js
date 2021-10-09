@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from '../../node_modules/ethers/dist/ethers.esm.js';
+import { ethers, providers, BigNumber } from '../../node_modules/ethers/dist/ethers.esm.js';
 import { PortfolioStats } from './PortfolioStats.js';
 import { CollectionsTable } from './CollectionsTable.js';
 import { Controls } from './Controls.js';
@@ -6,7 +6,7 @@ import * as Trades from '../data/Trades.js';
 import * as opensea from '../opensea.js';
 import * as analytics from '../analytics.js';
 
-const { Web3Provider } = ethers.providers;
+const { Web3Provider } = providers;
 
 export class App {
     provider = null;
@@ -77,6 +77,10 @@ export class App {
     async initWithAddress(address) {
         window.stats.classList.add('hidden');
         window.collectionList.classList.add('hidden');
+
+        if (!this.provider) {
+            this.provider = new providers.CloudflareProvider();
+        }
 
         const collectionsRequest = opensea.getCollections(address);
         const investmentsRequest = Trades.getInvestmentStats(address, this.provider);
