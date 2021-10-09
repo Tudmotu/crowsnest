@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from '../../../node_modules/ethers/dist/ethers.esm.js';
+import { ethers, BigNumber } from '../../node_modules/ethers/dist/ethers.esm.js';
 import * as opensea from '../opensea.js';
 
 export async function getInvestmentStats (address, provider) {
@@ -72,13 +72,25 @@ export async function getInvestmentStats (address, provider) {
 
     const transfersByCollection = {};
 
-    for (let [collection, data] of Object.entries(tradesByCollection)) {
-        const sales = parseFloat(data.total_sales_eth, 10);
-        const buys = parseFloat(data.total_buys_eth, 10);
+    const collections = new Set(
+        Object.keys(mintTxsByCollection).concat(Object.keys(tradesByCollection))
+    );
+
+    for (let collection of collections) {
+        const data = tradesByCollection[collection];
+        let sales = 0;
+        let buys = 0;
         let mints = 0;
+
+        if (data) {
+            sales = parseFloat(data.total_sales_eth, 10);
+            buys = parseFloat(data.total_buys_eth, 10);
+        }
+
         if (mintTxsByCollection[collection]) {
             mints = parseFloat(mintTxsByCollection[collection].eth_value, 10);
         }
+
         transfersByCollection[collection] = {
             sales,
             buys,

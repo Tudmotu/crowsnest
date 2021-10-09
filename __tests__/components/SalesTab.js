@@ -1,4 +1,3 @@
-//import { SalesTab } from '../../js/components/SalesTab.js';
 const { SalesTab } = require('../../js/components/SalesTab.js');
 const opensea = require('../../js/opensea.js');
 
