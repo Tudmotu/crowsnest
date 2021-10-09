@@ -40,8 +40,10 @@ export class CollectionsTable {
         this.salesTab = new SalesTab(window.body);
     }
 
-    render (collections) {
+    async render (collectionsRequest, investmentsRequest) {
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
+
+        const collections = await collectionsRequest;
 
         this.el.innerHTML = `
             <div class="listHeader"></div>
@@ -50,7 +52,10 @@ export class CollectionsTable {
             <div class="listHeader">Owned</div>
             <div class="listHeader">Floor</div>
             <div class="listHeader">Min. Value</div>
-            <div class="listHeader">Avg. Price</div>
+            <div class="listHeader">Possible ROI</div>
+            <div class="listHeader">Realized ROI</div>
+            <div class="listHeader">Sales</div>
+            <div class="listHeader">Investment</div>
             <div class="listHeader">1-day Avg. Price</div>
             <div class="listHeader">Total Volume</div>
             <div class="listHeader">1-day Volume</div>
@@ -60,7 +65,8 @@ export class CollectionsTable {
                 const bVal = b.owned_asset_count * b.stats.floor_price;
                 return bVal - aVal;
             }).map(collection => {
-                const { stats } = collection;
+                const { stats, slug } = collection;
+                const minValue = (collection.owned_asset_count * stats.floor_price);
                 return `
                     <div class="collectionMenuButton"
                         data-collection="${collection.slug}"
@@ -75,13 +81,66 @@ export class CollectionsTable {
                     </a>
                     <div>${collection.owned_asset_count}</div>
                     <div>${ethLogo}${stats.floor_price.toFixed(2)}</div>
-                    <div>${ethLogo}${(collection.owned_asset_count * stats.floor_price).toFixed(2)}</div>
-                    <div>${ethLogo}${stats.average_price.toFixed(2)}</div>
+                    <div>${ethLogo}${minValue.toFixed(2)}</div>
+                    <div data-collection="${collection.slug}"
+                        data-roi
+                        data-col="possibleRoi"><span>${ethLogo}--</span></div>
+                    <div data-collection="${collection.slug}"
+                        data-roi
+                        data-col="roi"><span>${ethLogo}--</span></div>
+                    <div data-collection="${collection.slug}"
+                        data-col="sales">${ethLogo}--</div>
+                    <div data-collection="${collection.slug}"
+                        data-col="investment">${ethLogo}--</div>
                     <div>${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
                     <div>${ethLogo}${stats.total_volume.toFixed(2)}</div>
                     <div>${ethLogo}${stats.one_day_volume.toFixed(2)}</div>
                 `;
             }).join('')}
         `;
+
+        const investments = await investmentsRequest;
+        this.renderROIs(investments, collections);
+    }
+
+    renderROIs (investments, collections) {
+        const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
+
+        Object.entries(investments).forEach(([slug, data]) => {
+            const collection = collections.find(c => c.slug === slug);
+            if (!collection) return;
+            const { stats, owned_asset_count } = collection;
+            const minValue = (owned_asset_count * stats.floor_price);
+            const sales = data?.sales ?? 0;
+            const investment = data?.investment ?? 0;
+            const realizedRoi = data?.realized_roi ?? 0;
+            const possibleRoi = realizedRoi + minValue;
+            const roiSentiment = realizedRoi > 0 ? 'positive' : 'negative';
+            const possibleRoiSentiment = possibleRoi > 0 ? 'positive' : 'negative';
+            const getCell = col => {
+                const selector = `[data-collection="${slug}"][data-col="${col}"]`;
+                return this.el.querySelector(selector)
+            };
+
+            getCell('possibleRoi').innerHTML = `
+                <span>
+                    ${ethLogo}
+                    ${possibleRoiSentiment === 'positive' ? '+' : ''}${possibleRoi.toFixed(2)}
+                </span>
+            `;
+
+            getCell('roi').innerHTML = `
+                <span>
+                    ${ethLogo}
+                    ${roiSentiment === 'positive' ? '+' : ''}${realizedRoi.toFixed(2)}
+                </span>
+            `;
+
+            getCell('possibleRoi').dataset.roi = possibleRoiSentiment;
+            getCell('roi').dataset.roi = roiSentiment;
+
+            getCell('sales').innerHTML = `${ethLogo}${sales.toFixed(2)}`;
+            getCell('investment').innerHTML = `${ethLogo}${investment.toFixed(2)}`;
+        });
     }
 }

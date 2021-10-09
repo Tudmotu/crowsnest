@@ -240,11 +240,12 @@ input {
     border:var(--border);
     background-color:var(--c-white);
     display:grid;
-    grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     row-gap:1rem;
     align-items:stretch;
     box-sizing:border-box;
     position:relative;
+    overflow-x:auto;
 }
 
 #collectionListMenuContainer {
@@ -307,6 +308,33 @@ input {
 #collectionList > *:not(#collectionListMenu) {
     padding:0 1rem;
     box-sizing:border-box;
+}
+
+#collectionList > [data-roi] .ethLogo {
+    background: white;
+    border-radius: 50%;
+    padding: 1px;
+    margin-right: .5em;
+}
+
+#collectionList > [data-roi] {
+    color:var(--c-white);
+}
+
+#collectionList > [data-roi] > span {
+    display:flex;
+    align-items:center;
+    padding:.5rem;
+    border-radius:.25rem;
+    background:var(--c-yellow);
+}
+
+#collectionList > [data-roi=positive] > span {
+    background:var(--c-green);
+}
+
+#collectionList > [data-roi=negative] > span {
+    background:var(--c-red);
 }
 
 #collectionList .collectionMenuButton {
@@ -550,8 +578,7 @@ a {
         border-left:0;
         border-right:0;
         width:100vw;
-        overflow-x:auto;
-        grid-template-columns:4rem 5rem 240px 120px 120px 120px 120px 120px 120px 120px;
+        grid-template-columns:4rem 5rem 240px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px;
     }
 
     #controls {
