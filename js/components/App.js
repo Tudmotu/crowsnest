@@ -78,15 +78,13 @@ export class App {
         window.stats.classList.add('hidden');
         window.collectionList.classList.add('hidden');
 
-        const [collections, investments] = await Promise.all([
-            opensea.getCollections(address),
-            Trades.getInvestmentStats(address, this.provider)
-        ]);
+        const collectionsRequest = opensea.getCollections(address);
+        const investmentsRequest = Trades.getInvestmentStats(address, this.provider);
 
         window.stats.classList.remove('hidden');
         window.collectionList.classList.remove('hidden');
 
-        this.tableComponent.render(collections, investments);
-        this.statsComponent.render(collections, investments);
+        this.tableComponent.render(collectionsRequest, investmentsRequest);
+        this.statsComponent.render(collectionsRequest, investmentsRequest);
     }
 };

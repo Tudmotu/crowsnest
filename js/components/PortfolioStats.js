@@ -90,7 +90,8 @@ export class PortfolioStats {
         }
     }
 
-    render (collections) {
+    async render (collectionsRequest) {
+        const collections = await collectionsRequest;
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         const totalOwned = collections.reduce((sum, curr) => sum + curr.owned_asset_count, 0);
