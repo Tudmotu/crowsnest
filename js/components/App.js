@@ -6,7 +6,7 @@ import * as Trades from '../data/Trades.js';
 import * as opensea from '../opensea.js';
 import * as analytics from '../analytics.js';
 
-const { Web3Provider } = providers;
+const { Web3Provider, WebSocketProvider } = providers;
 
 export class App {
     provider = null;
@@ -83,7 +83,9 @@ export class App {
                 this.provider = new Web3Provider(window.ethereum);
             }
             else {
-                this.provider = new providers.CloudflareProvider();
+                this.provider = new WebSocketProvider(
+                    'wss://mainnet.infura.io/ws/v3/f43414318fcc4cbc9b4f12c26fa11055'
+                );
             }
         }
 
