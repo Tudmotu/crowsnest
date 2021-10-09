@@ -32,6 +32,15 @@ describe('getInvestmentStats()', () => {
                 transaction: {
                     transaction_hash: 'minted1'
                 }
+            },
+            {
+                collection_slug: 'collection-C',
+                from_account: {
+                    user: null
+                },
+                transaction: {
+                    transaction_hash: 'minted1'
+                }
             }
         ]);
 

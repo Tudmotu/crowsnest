@@ -41,7 +41,7 @@ export async function getInvestmentStats (address, provider) {
     }
 
     const mints = (await opensea.getTransfers(address)).filter(t => {
-        return t.from_account.user.username === 'NullAddress';
+        return t.from_account.user?.username === 'NullAddress';
     });
 
     const mintTxsByCollection = {};
