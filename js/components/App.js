@@ -79,7 +79,12 @@ export class App {
         window.collectionList.classList.add('hidden');
 
         if (!this.provider) {
-            this.provider = new providers.CloudflareProvider();
+            if (window.ethereum) {
+                this.provider = new Web3Provider(window.ethereum);
+            }
+            else {
+                this.provider = new providers.CloudflareProvider();
+            }
         }
 
         const collectionsRequest = opensea.getCollections(address);
