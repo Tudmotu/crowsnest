@@ -13,6 +13,7 @@ To run this project locally, you need:
 
  - Ruby 2.7.0 (recommended to install using [Frum](https://github.com/TaKO8Ki/frum#installation))
  - Node 14 & NPM 6 (recommended to install using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating))
+ - [Bundler](https://bundler.io/)
 
 ## Install Ruby
 To install Ruby 2.7.0, if you are using Frum, run the following command:
@@ -26,6 +27,12 @@ To install Node 14, if you are using NVM, run the following command:
 $ nvm install 14
 ```
 
+## Install Bundler
+To install Bundler, run the following command:
+```console
+$ gem install bundler
+```
+
 ## Install dependencies
 
  1. Clone the repository
@@ -33,8 +40,8 @@ $ nvm install 14
 	 1.  Run ``frum local 2.7.0``
 	 2.  Run ``nvm use 14``
  3. To install the dependencies, from the root directory run:
-	 1. ``gem install`` 
-	 2. ``npm ci`` 
+	 1. ``bundle install``
+	 2. ``npm ci``
 
 # Running local server
 With Jekyll and all the Ruby dependencies installed, run the following command:
