@@ -140,7 +140,7 @@ input {
 
 #stats {
     --rows:4;
-    --columns:8;
+    --columns:10;
     --row-height:3rem;
     --gap:2rem;
     display:grid;
@@ -193,7 +193,7 @@ input {
 }
 
 #statTotalOwned {
-    --stat-color:var(--c-green);
+    --stat-color:var(--c-main);
     grid-area:1 / 1 / span 2 / span 2;
 }
 
@@ -212,9 +212,22 @@ input {
     grid-area:3 / 3 / span 2 / span 2;
 }
 
+#statPossibleROI {
+    --stat-color:var(--c-blue-grey);
+    grid-area:1 / 5 / span 2 / span 2;
+}
+
+#statPossibleROI[data-roi=negative] { --stat-color:var(--c-red); }
+#statPossibleROI[data-roi=positive] { --stat-color:var(--c-green); }
+
+#statTotalInvestment {
+    --stat-color:var(--c-secondary);
+    grid-area:3 / 5 / span 2 / span 2;
+}
+
 #statCollectionBreakdown {
     --stat-color:var(--c-main);
-    grid-area:1 / 5 / span 4 / span 4;
+    grid-area:1 / 7 / span 4 / span 4;
 }
 
 #statCollectionPieChart {

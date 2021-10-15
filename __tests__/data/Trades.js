@@ -54,8 +54,16 @@ describe('getInvestmentStats()', () => {
         ]);
 
         providerMock = {
+            getTransactionReceipt: jest.fn().mockImplementation(hash => {
+                return {
+                    gasUsed: BigNumber.from('42000'),
+                    effectiveGasPrice: BigNumber.from('20000000000'),
+                };
+            }),
             getTransaction: jest.fn().mockImplementation(hash => {
                 if (hash === 'minted1') return {
+                    gasLimit: BigNumber.from('420000'),
+                    gasPrice: BigNumber.from('20000000000'),
                     value: BigNumber.from('40000000000000000')
                 };
             })

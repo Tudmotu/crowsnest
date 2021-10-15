@@ -90,23 +90,59 @@ export class PortfolioStats {
         }
     }
 
-    async render (collectionsRequest) {
+    resetStats () {
+        this.getEl('#statTotalOwned').querySelector('.statValue').textContent = '--';
+        this.getEl('#statMinValue').querySelector('.statValue').textContent = '--';
+        this.getEl('#statAvgValue').querySelector('.statValue').textContent = '--';
+        this.getEl('#statCollections').querySelector('.statValue').textContent = '--';
+        this.getEl('#statPossibleROI').querySelector('.statValue').textContent = '--';
+        this.getEl('#statTotalInvestment').querySelector('.statValue').textContent = '--';
+    }
+
+    async render (collectionsRequest, investmentsRequest) {
+        this.resetStats();
+
         const collections = await collectionsRequest;
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         const totalOwned = collections.reduce((sum, curr) => sum + curr.owned_asset_count, 0);
         const totalMinVal = collections.reduce((sum, current) => {
             return sum + current.owned_asset_count * current.stats.floor_price;
-        }, 0).toFixed(2);
+        }, 0);
         const totalAvgVal = collections.reduce((sum, current) => {
             return sum + current.owned_asset_count * current.stats.one_day_average_price;
-        }, 0).toFixed(2);
+        }, 0);
 
         this.getEl('#statTotalOwned').querySelector('.statValue').textContent = totalOwned;
-        this.getEl('#statMinValue').querySelector('.statValue').innerHTML = `${ethLogo}${totalMinVal}`;
-        this.getEl('#statAvgValue').querySelector('.statValue').innerHTML = `${ethLogo}${totalAvgVal}`;
+        this.getEl('#statMinValue').querySelector('.statValue').innerHTML = `${ethLogo}${totalMinVal.toFixed(2)}`;
+        this.getEl('#statAvgValue').querySelector('.statValue').innerHTML = `${ethLogo}${totalAvgVal.toFixed(2)}`;
         this.getEl('#statCollections').querySelector('.statValue').textContent = collections.length;
 
         this.renderPieChart(this.getEl('#statCollectionPieChart'), collections);
+
+        const investmentStats = await investmentsRequest;
+
+        const totalInvestment = Object.values(investmentStats)
+            .reduce((s, x) => s + x.investment, 0);
+
+        const totalSales = Object.values(investmentStats)
+            .reduce((s, x) => s + x.sales, 0);
+
+        const totalGasPaid = Object.values(investmentStats)
+            .reduce((s, x) => s + x.gasPaid, 0);
+
+        const totalFeesPaid = Object.values(investmentStats)
+            .reduce((s, x) => s + x.feesPaid, 0);
+
+        const possibleROI = 
+            (totalMinVal + totalSales)
+            -
+            (totalInvestment + totalGasPaid + totalFeesPaid);
+
+        this.getEl('#statPossibleROI').querySelector('.statValue').innerHTML = `${ethLogo}${possibleROI > 0 ? '+' : ''}${possibleROI.toFixed(2)}`;
+        this.getEl('#statTotalInvestment').querySelector('.statValue').innerHTML = `${ethLogo}${totalInvestment.toFixed(2)}`;
+
+        const roiSign = possibleROI > 0 ? 'positive' : 'negative';
+        this.getEl('#statPossibleROI').dataset.roi = roiSign;
     }
 }
