@@ -32,10 +32,6 @@ describe('PortfolioStats component', () => {
         };
     });
 
-    test('fail on purpose', () => {
-        expect(false).toBe(true);
-    });
-
     test('should render correct values in stats', async () => {
         const stats = new PortfolioStats(document.body);
         await stats.render(Promise.resolve([
