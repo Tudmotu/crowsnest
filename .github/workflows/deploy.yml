@@ -28,6 +28,8 @@ jobs:
 
       - name: Add node_modules
         run: |
+          git switch gh-pages
+          git pull
           git add -f node_modules/
           git commit -m 'Add node_modules'
-          git push
+          git push origin gh-pages
