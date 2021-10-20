@@ -1,0 +1,35 @@
+{
+  "name": "crowsnest",
+  "version": "1.0.0",
+  "description": "Crow's Nest is an NFT market tracker",
+  "main": "index.html",
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transformIgnorePatterns": [],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nft",
+    "ethereum"
+  ],
+  "author": "Tudmotu",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "7.15.5",
+    "@babel/preset-env": "7.15.6",
+    "@testing-library/jest-dom": "5.14.1",
+    "babel-jest": "27.2.4",
+    "http-server": "13.0.2",
+    "jest": "27.2.4"
+  },
+  "dependencies": {
+    "chart.js": "3.5.1",
+    "chartjs-plugin-datalabels": "2.0.0",
+    "ethers": "5.4.7"
+  }
+}
