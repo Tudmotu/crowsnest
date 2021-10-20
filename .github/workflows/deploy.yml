@@ -20,6 +20,10 @@ jobs:
           rm -rf node_modules/
           npm ci --only=prod
 
+      - name: Add node_modules
+        run: |
+          git add -f node_modules/
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
