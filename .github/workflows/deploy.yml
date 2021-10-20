@@ -12,8 +12,7 @@ jobs:
 
       - name: Tests
         run: |
-          npx jest
-          echo "Jest exit code: $?"
+          ./node_modules/.bin/jest
 
       - name: NPM Install Prod
         run: |
