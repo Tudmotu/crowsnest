@@ -34,6 +34,7 @@ describe('PortfolioStats component', () => {
 
     test('should render correct values in stats', async () => {
         const stats = new PortfolioStats(document.body);
+        console.log('test');
         await stats.render(Promise.resolve([
             {
                 owned_asset_count: 2,
