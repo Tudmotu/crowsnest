@@ -23,6 +23,7 @@ jobs:
       - name: Add node_modules
         run: |
           git add -f node_modules/
+          git commit -m 'Add node_modules'
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
