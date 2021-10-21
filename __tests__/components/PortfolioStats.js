@@ -34,7 +34,6 @@ describe('PortfolioStats component', () => {
 
     test('should render correct values in stats', async () => {
         const stats = new PortfolioStats(document.body);
-        console.log('test');
         await stats.render(Promise.resolve([
             {
                 owned_asset_count: 2,
@@ -64,8 +63,6 @@ describe('PortfolioStats component', () => {
                 feesPaid: 0.05
             }
         }));
-
-        1.25 - 0.75
 
         function getValueEl (id) { return document.querySelector(`#${id} .statValue`); }
 
