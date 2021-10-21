@@ -56,6 +56,8 @@ export class CollectionsTable {
             <div class="listHeader">Realized ROI</div>
             <div class="listHeader">Sales</div>
             <div class="listHeader">Investment</div>
+            <div class="listHeader">Gas Spent</div>
+            <div class="listHeader">Fees Paid</div>
             <div class="listHeader">1-day Avg. Price</div>
             <div class="listHeader">Total Volume</div>
             <div class="listHeader">1-day Volume</div>
@@ -92,6 +94,10 @@ export class CollectionsTable {
                         data-col="sales">${ethLogo}--</div>
                     <div data-collection="${collection.slug}"
                         data-col="investment">${ethLogo}--</div>
+                    <div data-collection="${collection.slug}"
+                        data-col="gas">${ethLogo}--</div>
+                    <div data-collection="${collection.slug}"
+                        data-col="fees">${ethLogo}--</div>
                     <div>${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
                     <div>${ethLogo}${stats.total_volume.toFixed(2)}</div>
                     <div>${ethLogo}${stats.one_day_volume.toFixed(2)}</div>
@@ -113,8 +119,10 @@ export class CollectionsTable {
             const minValue = (owned_asset_count * stats.floor_price);
             const sales = data?.sales ?? 0;
             const investment = data?.investment ?? 0;
+            const gas = data?.gasPaid ?? 0;
+            const fees = data?.feesPaid ?? 0;
             const realizedRoi = data?.realized_roi ?? 0;
-            const possibleRoi = realizedRoi + minValue;
+            const possibleRoi = realizedRoi + minValue - gas - fees;
             const roiSentiment = realizedRoi > 0 ? 'positive' : 'negative';
             const possibleRoiSentiment = possibleRoi > 0 ? 'positive' : 'negative';
             const getCell = col => {
@@ -138,9 +146,10 @@ export class CollectionsTable {
 
             getCell('possibleRoi').dataset.roi = possibleRoiSentiment;
             getCell('roi').dataset.roi = roiSentiment;
-
             getCell('sales').innerHTML = `${ethLogo}${sales.toFixed(2)}`;
             getCell('investment').innerHTML = `${ethLogo}${investment.toFixed(2)}`;
+            getCell('gas').innerHTML = `${ethLogo}${gas.toFixed(2)}`;
+            getCell('fees').innerHTML = `${ethLogo}${fees.toFixed(2)}`;
         });
     }
 }

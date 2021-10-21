@@ -32,7 +32,7 @@ export async function getInvestmentStats (address, provider) {
 
         const collectionData = tradesByCollection[collection];
 
-        if (trade.seller.address.toLowerCase() === address.toLowerCase()) {
+        if (trade.seller?.address.toLowerCase() === address.toLowerCase()) {
             collectionData.sales.push(trade);
             collectionData.total_sales = collectionData.total_sales.add(BigNumber.from(trade.total_price));
         }
