@@ -140,7 +140,7 @@ input {
 
 #stats {
     --rows:4;
-    --columns:8;
+    --columns:10;
     --row-height:3rem;
     --gap:2rem;
     display:grid;
@@ -193,7 +193,7 @@ input {
 }
 
 #statTotalOwned {
-    --stat-color:var(--c-green);
+    --stat-color:var(--c-main);
     grid-area:1 / 1 / span 2 / span 2;
 }
 
@@ -212,9 +212,22 @@ input {
     grid-area:3 / 3 / span 2 / span 2;
 }
 
+#statPossibleROI {
+    --stat-color:var(--c-blue-grey);
+    grid-area:1 / 5 / span 2 / span 2;
+}
+
+#statPossibleROI[data-roi=negative] { --stat-color:var(--c-red); }
+#statPossibleROI[data-roi=positive] { --stat-color:var(--c-green); }
+
+#statTotalInvestment {
+    --stat-color:var(--c-secondary);
+    grid-area:3 / 5 / span 2 / span 2;
+}
+
 #statCollectionBreakdown {
     --stat-color:var(--c-main);
-    grid-area:1 / 5 / span 4 / span 4;
+    grid-area:1 / 7 / span 4 / span 4;
 }
 
 #statCollectionPieChart {
@@ -240,7 +253,7 @@ input {
     border:var(--border);
     background-color:var(--c-white);
     display:grid;
-    grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     row-gap:1rem;
     align-items:stretch;
     box-sizing:border-box;
@@ -578,7 +591,7 @@ a {
         border-left:0;
         border-right:0;
         width:100vw;
-        grid-template-columns:4rem 5rem 240px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px;
+        grid-template-columns:4rem 5rem 240px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px;
     }
 
     #controls {
@@ -609,13 +622,13 @@ a {
     }
 
     #stats {
-        --rows:8;
+        --rows:10;
         --columns:4;
     }
 
-    #statCollectionBreakdown {
-        grid-area:5 / 1 / span 4 / span 4;
-    }
+    #statPossibleROI { grid-area:5 / 1 / span 2 / span 2; }
+    #statTotalInvestment { grid-area:5 / 3 / span 2 / span 2; }
+    #statCollectionBreakdown { grid-area:7 / 1 / span 4 / span 4; }
 
     #stats .statCard.smallStat .statValue {
         font-size:3rem;
