@@ -123,16 +123,16 @@ export class PortfolioStats {
         const investmentStats = await investmentsRequest;
 
         const totalInvestment = Object.values(investmentStats)
-            .reduce((s, x) => s + x.investment, 0);
+            .reduce((s, x) => s + (x.investment || 0), 0);
 
         const totalSales = Object.values(investmentStats)
-            .reduce((s, x) => s + x.sales, 0);
+            .reduce((s, x) => s + (x.sales || 0), 0);
 
         const totalGasPaid = Object.values(investmentStats)
-            .reduce((s, x) => s + x.gasPaid, 0);
+            .reduce((s, x) => s + (x.gasPaid || 0), 0);
 
         const totalFeesPaid = Object.values(investmentStats)
-            .reduce((s, x) => s + x.feesPaid, 0);
+            .reduce((s, x) => s + (x.feesPaid || 0), 0);
 
         const possibleROI = 
             (totalMinVal + totalSales)
