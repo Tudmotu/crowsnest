@@ -34,5 +34,5 @@ jobs:
           git switch gh-pages
           git pull
           git add -f node_modules/
-          git commit -m 'Add node_modules'
+          git commit --allow-empty -m 'Add node_modules'
           git push origin gh-pages
