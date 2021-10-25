@@ -17,6 +17,7 @@ export class CollectionsTable {
                 container.innerHTML = `
                     <div id="collectionListMenu" style="top:${top}px;left:${left}px">
                         <div data-action="sales">Sales Data ${Icons.barChart}</div>
+                        <div data-action="hide">Hide ${Icons.hiddenEye}</div>
                         <a href="https://opensea.io/activity/${collection}" target="_blank">
                             Activity ${Icons.externalLink}
                         </a>
