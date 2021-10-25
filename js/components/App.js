@@ -5,6 +5,8 @@ import { Controls } from './Controls.js';
 import * as Trades from '../data/Trades.js';
 import * as opensea from '../opensea.js';
 import * as analytics from '../analytics.js';
+import { CollectionsState } from '../state/CollectionsState.js';
+import { InvestmentsState } from '../state/InvestmentsState.js';
 
 const { Web3Provider, WebSocketProvider } = providers;
 
@@ -92,10 +94,10 @@ export class App {
         const collectionsRequest = opensea.getCollections(address);
         const investmentsRequest = Trades.getInvestmentStats(address, this.provider);
 
+        CollectionsState.set(collectionsRequest);
+        InvestmentsState.set(investmentsRequest);
+
         window.stats.classList.remove('hidden');
         window.collectionList.classList.remove('hidden');
-
-        this.tableComponent.render(collectionsRequest, investmentsRequest);
-        this.statsComponent.render(collectionsRequest, investmentsRequest);
     }
 };

@@ -21,7 +21,7 @@ describe.only('CollectionsTable component', () => {
     });
 
     test('should render "Gas Spent", "Fees Paid" and ROI columns', async () => {
-        await table.render(Promise.resolve([
+        const collections = [
             {
                 slug: 'collectionA',
                 owned_asset_count: 2,
@@ -42,7 +42,9 @@ describe.only('CollectionsTable component', () => {
                     one_day_volume: 0.1
                 }
             }
-        ]), Promise.resolve({
+        ];
+
+        const rois = {
             collectionA: {
                 investment: 0.08,
                 sales: 0,
@@ -57,7 +59,10 @@ describe.only('CollectionsTable component', () => {
                 gasPaid: 0.1,
                 feesPaid: 0.05
             }
-        }));
+        };
+
+        await table.render(collections);
+        await table.renderROIs(rois, collections);
 
         expect(container).toContainHTML(`
             <div class="listHeader">Gas Spent</div>

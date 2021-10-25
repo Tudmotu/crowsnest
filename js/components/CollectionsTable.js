@@ -1,5 +1,7 @@
 import { SalesTab } from './SalesTab.js';
 import * as Icons from '../icons.js';
+import { CollectionsState } from '../state/CollectionsState.js';
+import { InvestmentsState } from '../state/InvestmentsState.js';
 
 export class CollectionsTable {
     constructor (el) {
@@ -39,12 +41,24 @@ export class CollectionsTable {
         });
 
         this.salesTab = new SalesTab(window.body);
+
+        CollectionsState.subscribe(async () => {
+            const collections = CollectionsState.get();
+            const investments = InvestmentsState.get();
+
+            await this.render(await collections, await investments);
+            this.renderROIs(await investments, await collections);
+        });
+
+        InvestmentsState.subscribe(async () => {
+            const investments = InvestmentsState.get();
+            const collections = CollectionsState.get();
+            this.renderROIs(await investments, await collections);
+        });
     }
 
-    async render (collectionsRequest, investmentsRequest) {
+    async render (collections) {
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
-
-        const collections = await collectionsRequest;
 
         this.el.innerHTML = `
             <div class="listHeader"></div>
@@ -105,9 +119,6 @@ export class CollectionsTable {
                 `;
             }).join('')}
         `;
-
-        const investments = await investmentsRequest;
-        this.renderROIs(investments, collections);
     }
 
     renderROIs (investments, collections) {
