@@ -36,6 +36,11 @@ export class CollectionsTable {
                     document.body.removeChild(container);
                 });
 
+                container.querySelector('[data-action=hide]').addEventListener('click', e => {
+                    CollectionsState.hide(collection);
+                    document.body.removeChild(container);
+                });
+
                 document.body.appendChild(container);
             }
         });
@@ -43,17 +48,17 @@ export class CollectionsTable {
         this.salesTab = new SalesTab(window.body);
 
         CollectionsState.subscribe(async () => {
-            const collections = CollectionsState.get();
-            const investments = InvestmentsState.get();
+            const collections = CollectionsState.getVisible();
+            const investments = InvestmentsState.getVisible();
 
-            await this.render(await collections, await investments);
-            this.renderROIs(await investments, await collections);
+            await this.render(collections);
+            this.renderROIs(investments, collections);
         });
 
         InvestmentsState.subscribe(async () => {
-            const investments = InvestmentsState.get();
-            const collections = CollectionsState.get();
-            this.renderROIs(await investments, await collections);
+            const investments = InvestmentsState.getVisible();
+            const collections = CollectionsState.getVisible();
+            this.renderROIs(investments, collections);
         });
     }
 

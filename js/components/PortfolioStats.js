@@ -10,11 +10,12 @@ export class PortfolioStats {
         this.el = el;
 
         CollectionsState.subscribe(async () => {
-            this.renderCollectionsStats(await CollectionsState.get());
+            this.renderCollectionsStats(CollectionsState.getVisible());
+            this.renderRoiStats(InvestmentsState.getVisible(), CollectionsState.getVisible());
         });
 
         InvestmentsState.subscribe(async () => {
-            this.renderRoiStats(await InvestmentsState.get(), await CollectionsState.get());
+            this.renderRoiStats(InvestmentsState.getVisible(), CollectionsState.getVisible());
         });
     }
 
@@ -130,6 +131,8 @@ export class PortfolioStats {
 
     async renderRoiStats (investmentStats, collections) {
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
+
+        if (Object.keys(investmentStats).length === 0) return;
 
         const totalMinVal = collections.reduce((sum, current) => {
             return sum + current.owned_asset_count * current.stats.floor_price;

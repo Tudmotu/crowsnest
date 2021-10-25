@@ -2,7 +2,15 @@ import { AbstractStateComponent } from './AbstractStateComponent.js';
 
 export class CollectionsStateComponent extends AbstractStateComponent {
     getCollection (collection) {
-        return this.state.find(c => c.collection_slug === collection);
+        return this.state.find(c => c.slug === collection);
+    }
+
+    getVisible () {
+        return this.get().filter(c => c.hidden !== true);
+    }
+
+    isVisible (collection) {
+        return !this.getCollection(collection)?.hidden;
     }
 
     async hide (collection) {

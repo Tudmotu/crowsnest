@@ -3,29 +3,29 @@ function copyObject (object) {
 }
 
 export class AbstractStateComponent {
-    #state = null;
-    #listeners = [];
+    state = null;
+    listeners = [];
 
     async set (newState) {
-        this.#state = copyObject(await newState);
+        this.state = copyObject(await newState);
         await this.emitUpdate();
     }
 
-    async get () {
-        return copyObject(this.#state);
+    get () {
+        return copyObject(this.state);
     }
 
     async emitUpdate () {
-        for (let listener of this.#listeners) {
+        for (let listener of this.listeners) {
             await listener();
         }
     }
 
     subscribe (listener) {
-        this.#listeners.push(listener);
+        this.listeners.push(listener);
     }
 
     unsubscribe (listener) {
-        this.#listeners.splice(this.#listeners.indexOf(listener), 1);
+        this.listeners.splice(this.listeners.indexOf(listener), 1);
     }
 };
