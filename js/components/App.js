@@ -6,6 +6,7 @@ import * as Trades from '../data/Trades.js';
 import * as opensea from '../opensea.js';
 import * as analytics from '../analytics.js';
 import { CollectionsState } from '../state/CollectionsState.js';
+import { AccountState } from '../state/AccountState.js';
 import { InvestmentsState } from '../state/InvestmentsState.js';
 
 const { Web3Provider, WebSocketProvider } = providers;
@@ -91,6 +92,7 @@ export class App {
             }
         }
 
+        AccountState.setAddress(address);
         const collectionsRequest = opensea.getCollections(address);
         const investmentsRequest = Trades.getInvestmentStats(address, this.provider);
 

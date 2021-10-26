@@ -1,13 +1,17 @@
 import { CollectionsStateComponent } from '../../js/state/CollectionsState.js';
 import { InvestmentsStateComponent } from '../../js/state/InvestmentsState.js';
+import { AccountStateComponent } from '../../js/state/AccountState.js';
 
 describe('InvestmentsState module', () => {
     let collections;
     let investments;
-    beforeEach(() => {
-        collections = new CollectionsStateComponent();
+    let account;
+    beforeEach(async () => {
+        account = new AccountStateComponent();
+        account.setAddress(`aaa${Math.random()}`);
+        collections = new CollectionsStateComponent(account);
 
-        collections.set([
+        await collections.set([
             {
                 slug: 'collectionA'
             },
@@ -18,7 +22,7 @@ describe('InvestmentsState module', () => {
 
         investments = new InvestmentsStateComponent(collections);
 
-        investments.set({
+        await investments.set({
             collectionA: {},
             collectionB: {}
         });

@@ -1,10 +1,15 @@
 import { CollectionsStateComponent } from '../../js/state/CollectionsState.js';
+import { AccountStateComponent } from '../../js/state/AccountState.js';
 
 describe('CollectionsState module', () => {
     let state;
-    beforeEach(() => {
-        state = new CollectionsStateComponent();
-        state.set([
+    let account;
+    beforeEach(async () => {
+        account = new AccountStateComponent();
+        account.setAddress(`aaa${Math.random()}`);
+
+        state = new CollectionsStateComponent(account);
+        await state.set([
             {
                 slug: 'collectionA'
             },
@@ -12,6 +17,44 @@ describe('CollectionsState module', () => {
                 slug: 'collectionB'
             }
         ]);
+    });
+
+    test('.hide() should persist to localStorage', async () => {
+        account = new AccountStateComponent();
+        account.setAddress('persistent_hidden_test');
+
+        const oldState = new CollectionsStateComponent(account);
+
+        await oldState.set(Promise.resolve([
+            {
+                slug: 'collectionA'
+            },
+            {
+                slug: 'collectionB'
+            }
+        ]));
+
+        oldState.hide('collectionA')
+
+        jest.resetModules();
+
+        const RESET_MODULE = require('../../js/state/CollectionsState.js');
+
+        const newState = new RESET_MODULE.CollectionsStateComponent(account);
+
+        await newState.set(Promise.resolve([
+            {
+                slug: 'collectionA'
+            },
+            {
+                slug: 'collectionB'
+            }
+        ]));
+
+        expect(newState.isVisible('collectionA')).toBe(false);
+
+        const key = 'hidden_collections_persistent_hidden_test';
+        expect(localStorage[key]).toBe('["collectionA"]');
     });
 
     test('.isVisible() should return false if hidden=true', () => {
