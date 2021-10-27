@@ -30,6 +30,8 @@ function getHiddenCollections (address) {
 }
 
 export class CollectionsStateComponent extends AbstractStateComponent {
+    state = [];
+
     constructor (account) {
         super();
         this.account = account;

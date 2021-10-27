@@ -19,6 +19,11 @@ describe('CollectionsState module', () => {
         ]);
     });
 
+    test('.get() should return empty array if no state is set', async () => {
+        state = new CollectionsStateComponent(account);
+        expect(state.get()).toStrictEqual([]);
+    });
+
     test('.hide() should persist to localStorage', async () => {
         account = new AccountStateComponent();
         account.setAddress('persistent_hidden_test');
