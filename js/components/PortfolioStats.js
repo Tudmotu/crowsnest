@@ -1,21 +1,29 @@
 import '../../node_modules/chart.js/dist/chart.js';
 import '../../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js';
-import { CollectionsState } from '../state/CollectionsState.js';
-import { InvestmentsState } from '../state/InvestmentsState.js';
 
 window.Chart.register(window.ChartDataLabels);
 
 export class PortfolioStats {
-    constructor (el) {
+    constructor (el, investmentsState, collectionsState) {
         this.el = el;
 
-        CollectionsState.subscribe(async () => {
-            this.renderCollectionsStats(CollectionsState.getVisible());
-            this.renderRoiStats(InvestmentsState.getVisible(), CollectionsState.getVisible());
+        collectionsState.subscribe(async () => {
+            this.renderCollectionsStats(collectionsState.getVisible());
+            this.renderRoiStats(investmentsState.getVisible(), collectionsState.getVisible());
         });
 
-        InvestmentsState.subscribe(async () => {
-            this.renderRoiStats(InvestmentsState.getVisible(), CollectionsState.getVisible());
+        investmentsState.subscribe(async () => {
+            const state = investmentsState.get();
+
+            if (Object.keys(state).length === 0) {
+                this.resetStats();
+            }
+            else {
+                await this.renderRoiStats(
+                    investmentsState.getVisible(),
+                    collectionsState.getVisible()
+                );
+            }
         });
     }
 

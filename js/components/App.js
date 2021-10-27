@@ -13,7 +13,7 @@ const { Web3Provider, WebSocketProvider } = providers;
 
 export class App {
     provider = null;
-    statsComponent = new PortfolioStats(window.stats);
+    statsComponent = new PortfolioStats(window.stats, InvestmentsState, CollectionsState);
     tableComponent = new CollectionsTable(window.collectionList);
     controlsComponent = new Controls(window.controls);
 
@@ -91,6 +91,8 @@ export class App {
                 );
             }
         }
+
+        InvestmentsState.set({});
 
         AccountState.setAddress(address);
         const collectionsRequest = opensea.getCollections(address);
