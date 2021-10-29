@@ -19,6 +19,34 @@ describe('CollectionsState module', () => {
         ]);
     });
 
+    test('should support hiding 3 collections', async () => {
+        state = new CollectionsStateComponent(account);
+
+        await state.set([
+            { slug: 'collectionA' },
+            { slug: 'collectionB' },
+            { slug: 'collectionC' }
+        ]);
+
+        state.hide('collectionA');
+        state.hide('collectionB');
+        state.hide('collectionC');
+
+        jest.resetModules();
+        const RESET_MODULE = require('../../js/state/CollectionsState.js');
+        const newState = new RESET_MODULE.CollectionsStateComponent(account);
+
+        await newState.set([
+            { slug: 'collectionA' },
+            { slug: 'collectionB' },
+            { slug: 'collectionC' }
+        ]);
+
+        expect(newState.isVisible('collectionA')).toBe(false);
+        expect(newState.isVisible('collectionB')).toBe(false);
+        expect(newState.isVisible('collectionC')).toBe(false);
+    });
+
     test('.get() should return empty array if no state is set', async () => {
         state = new CollectionsStateComponent(account);
         expect(state.get()).toStrictEqual([]);
