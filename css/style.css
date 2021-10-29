@@ -331,6 +331,14 @@ input[type="text"] {
     box-sizing:border-box;
 }
 
+#collectionList:not([data-show-hidden="true"]) > [data-hidden="true"] {
+    display:none!important;
+}
+
+#collectionList > [data-hidden="true"] {
+    opacity:0.5;
+}
+
 #collectionList > [data-roi] .ethLogo {
     background: white;
     border-radius: 50%;

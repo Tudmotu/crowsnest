@@ -8,6 +8,7 @@ import * as analytics from '../analytics.js';
 import { CollectionsState } from '../state/CollectionsState.js';
 import { AccountState } from '../state/AccountState.js';
 import { InvestmentsState } from '../state/InvestmentsState.js';
+import { PortfolioSettings } from '../state/PortfolioSettings.js';
 
 const { Web3Provider, WebSocketProvider } = providers;
 
@@ -30,6 +31,10 @@ export class App {
         });
 
         this.controlsComponent.render();
+
+        document.getElementById('showHiddenCheckbox').addEventListener('change', e => {
+            PortfolioSettings.toggleHidden(e.target.checked);
+        });
     }
 
     start () {
