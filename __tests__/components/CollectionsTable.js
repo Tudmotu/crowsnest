@@ -1,8 +1,13 @@
 import { CollectionsTable } from '../../js/components/CollectionsTable.js';
+import { CollectionsState } from '../../js/state/CollectionsState.js';
 
-describe.only('CollectionsTable component', () => {
+jest.mock('../../js/state/CollectionsState.js');
+
+describe('CollectionsTable component', () => {
     let container;
     let table;
+    let collections;
+    let rois;
 
     const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
@@ -14,14 +19,8 @@ describe.only('CollectionsTable component', () => {
         container = document.createElement('div');
         document.body.appendChild(container);
         table = new CollectionsTable(container);
-    });
 
-    afterEach(() => {
-        document.body.innerHTML = '';
-    });
-
-    test('should render "Gas Spent", "Fees Paid" and ROI columns', async () => {
-        await table.render(Promise.resolve([
+        collections = [
             {
                 slug: 'collectionA',
                 owned_asset_count: 2,
@@ -42,7 +41,9 @@ describe.only('CollectionsTable component', () => {
                     one_day_volume: 0.1
                 }
             }
-        ]), Promise.resolve({
+        ];
+
+        rois = {
             collectionA: {
                 investment: 0.08,
                 sales: 0,
@@ -57,7 +58,82 @@ describe.only('CollectionsTable component', () => {
                 gasPaid: 0.1,
                 feesPaid: 0.05
             }
-        }));
+        };
+
+    });
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+    });
+
+    test('should remove container when clicking on backdrop', async () => {
+        await table.render(collections);
+        getCell('collectionA', 'menu').click();
+        let container = document.getElementById('collectionListMenuContainer');
+        container.click();
+        container = document.getElementById('collectionListMenuContainer');
+        expect(container).toBe(null);
+    });
+
+    test('should invoke salesTab.open() and remove container when sales button clicked', async () => {
+        jest.spyOn(table.salesTab, 'open');
+
+        await table.render(collections);
+        getCell('collectionA', 'menu').click();
+        const sales = document.querySelector('#collectionListMenu [data-action=sales]');
+        sales.click();
+
+        expect(table.salesTab.open).toHaveBeenCalled();
+
+        const container = document.getElementById('collectionListMenuContainer');
+        expect(container).toBe(null);
+    });
+
+    test('should remove menu container after hide button clicked', async () => {
+        await table.render(collections);
+        getCell('collectionA', 'menu').click();
+        const hide = document.querySelector('#collectionListMenu [data-action=hide]');
+        hide.click();
+        const container = document.getElementById('collectionListMenuContainer');
+        expect(container).toBe(null);
+    });
+
+    test('should invoke CollectionsState.unhide() when unhide button clicked', async () => {
+        collections[0].hidden = true;
+        await table.render(collections);
+        getCell('collectionA', 'menu').click();
+        const hide = document.querySelector('#collectionListMenu [data-action=hide]');
+        hide.click();
+        expect(CollectionsState.unhide).toHaveBeenCalled();
+    });
+
+    test('should invoke CollectionsState.hide() when hide button clicked', async () => {
+        await table.render(collections);
+        getCell('collectionA', 'menu').click();
+        const hide = document.querySelector('#collectionListMenu [data-action=hide]');
+        hide.click();
+        expect(CollectionsState.hide).toHaveBeenCalled();
+    });
+
+    test('should open popup menu when button clicked', async () => {
+        await table.render(collections);
+        getCell('collectionA', 'menu').click();
+        const menu = document.getElementById('collectionListMenu');
+
+        expect(menu).not.toBe(null);
+
+        const salesButton = menu.querySelector('[data-action=sales]');
+        const hideButton = menu.querySelector('[data-action=hide]');
+        const activityButton = menu.querySelector('a[data-action=activity]');
+
+        expect(salesButton).not.toBe(null);
+        expect(hideButton).not.toBe(null);
+        expect(activityButton).not.toBe(null);
+    });
+
+    test('should render "Gas Spent", "Fees Paid" and ROI columns', async () => {
+        await table.render(collections);
+        await table.renderROIs(rois, collections);
 
         expect(container).toContainHTML(`
             <div class="listHeader">Gas Spent</div>

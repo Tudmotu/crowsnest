@@ -4,8 +4,27 @@ import '../../node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalab
 window.Chart.register(window.ChartDataLabels);
 
 export class PortfolioStats {
-    constructor (el) {
+    constructor (el, investmentsState, collectionsState) {
         this.el = el;
+
+        collectionsState.subscribe(async () => {
+            this.renderCollectionsStats(collectionsState.getVisible());
+            this.renderRoiStats(investmentsState.getVisible(), collectionsState.getVisible());
+        });
+
+        investmentsState.subscribe(async () => {
+            const state = investmentsState.get();
+
+            if (Object.keys(state).length === 0) {
+                this.resetStats();
+            }
+            else {
+                await this.renderRoiStats(
+                    investmentsState.getVisible(),
+                    collectionsState.getVisible()
+                );
+            }
+        });
     }
 
     getEl (selector) {
@@ -99,10 +118,7 @@ export class PortfolioStats {
         this.getEl('#statTotalInvestment').querySelector('.statValue').textContent = '--';
     }
 
-    async render (collectionsRequest, investmentsRequest) {
-        this.resetStats();
-
-        const collections = await collectionsRequest;
+    async renderCollectionsStats (collections) {
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         const totalOwned = collections.reduce((sum, curr) => sum + curr.owned_asset_count, 0);
@@ -119,8 +135,16 @@ export class PortfolioStats {
         this.getEl('#statCollections').querySelector('.statValue').textContent = collections.length;
 
         this.renderPieChart(this.getEl('#statCollectionPieChart'), collections);
+    }
 
-        const investmentStats = await investmentsRequest;
+    async renderRoiStats (investmentStats, collections) {
+        const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
+
+        if (Object.keys(investmentStats).length === 0) return;
+
+        const totalMinVal = collections.reduce((sum, current) => {
+            return sum + current.owned_asset_count * current.stats.floor_price;
+        }, 0);
 
         const totalInvestment = Object.values(investmentStats)
             .reduce((s, x) => s + (x.investment || 0), 0);
@@ -134,7 +158,7 @@ export class PortfolioStats {
         const totalFeesPaid = Object.values(investmentStats)
             .reduce((s, x) => s + (x.feesPaid || 0), 0);
 
-        const possibleROI = 
+        const possibleROI =
             (totalMinVal + totalSales)
             -
             (totalInvestment + totalGasPaid + totalFeesPaid);

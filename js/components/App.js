@@ -5,12 +5,16 @@ import { Controls } from './Controls.js';
 import * as Trades from '../data/Trades.js';
 import * as opensea from '../opensea.js';
 import * as analytics from '../analytics.js';
+import { CollectionsState } from '../state/CollectionsState.js';
+import { AccountState } from '../state/AccountState.js';
+import { InvestmentsState } from '../state/InvestmentsState.js';
+import { PortfolioSettings } from '../state/PortfolioSettings.js';
 
 const { Web3Provider, WebSocketProvider } = providers;
 
 export class App {
     provider = null;
-    statsComponent = new PortfolioStats(window.stats);
+    statsComponent = new PortfolioStats(window.stats, InvestmentsState, CollectionsState);
     tableComponent = new CollectionsTable(window.collectionList);
     controlsComponent = new Controls(window.controls);
 
@@ -27,6 +31,10 @@ export class App {
         });
 
         this.controlsComponent.render();
+
+        document.getElementById('showHiddenCheckbox').addEventListener('change', e => {
+            PortfolioSettings.toggleHidden(e.target.checked);
+        });
     }
 
     start () {
@@ -55,9 +63,6 @@ export class App {
     }
 
     async initWithEthereum() {
-        window.stats.classList.add('hidden');
-        window.collectionList.classList.add('hidden');
-
         if (!this.provider) {
             this.provider = new Web3Provider(window.ethereum);
         }
@@ -77,6 +82,7 @@ export class App {
     async initWithAddress(address) {
         window.stats.classList.add('hidden');
         window.collectionList.classList.add('hidden');
+        window.portfolioSettings.classList.add('hidden');
 
         if (!this.provider) {
             if (window.ethereum) {
@@ -89,13 +95,18 @@ export class App {
             }
         }
 
+        await InvestmentsState.set({});
+        await CollectionsState.set([]);
+
+        AccountState.setAddress(address);
         const collectionsRequest = opensea.getCollections(address);
         const investmentsRequest = Trades.getInvestmentStats(address, this.provider);
 
+        InvestmentsState.set(investmentsRequest);
+        CollectionsState.set(collectionsRequest);
+
         window.stats.classList.remove('hidden');
         window.collectionList.classList.remove('hidden');
-
-        this.tableComponent.render(collectionsRequest, investmentsRequest);
-        this.statsComponent.render(collectionsRequest, investmentsRequest);
+        window.portfolioSettings.classList.remove('hidden');
     }
 };
