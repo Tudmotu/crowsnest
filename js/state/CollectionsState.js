@@ -18,6 +18,23 @@ function hideForAccount (address, collection) {
     localStorage[key] = JSON.stringify(Array.from(hidden));
 }
 
+function unhideForAccount (address, collection) {
+    const key = `hidden_collections_${address}`;
+    const hidden = new Set();
+
+    const hiddenCollectionsStorage = localStorage[key];
+
+    if (hiddenCollectionsStorage) {
+        JSON.parse(hiddenCollectionsStorage).forEach(c => {
+            hidden.add(c);
+        });
+    }
+
+    hidden.delete(collection);
+
+    localStorage[key] = JSON.stringify(Array.from(hidden));
+}
+
 function getHiddenCollections (address) {
     const key = `hidden_collections_${address}`;
 
@@ -73,7 +90,9 @@ export class CollectionsStateComponent extends AbstractStateComponent {
     }
 
     async unhide (collection) {
+        const address = this.account.get().address;
         this.getCollection(collection).hidden = false;
+        unhideForAccount(address, collection);
         await this.emitUpdate();
     }
 }
