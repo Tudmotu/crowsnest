@@ -1,0 +1,50 @@
+.checkbox {
+    --height:1.25rem;
+    display:flex;
+    align-items:center;
+    height:var(--height);
+    position:relative;
+    cursor:pointer;
+}
+
+.checkbox input {
+    margin:0;
+    width:var(--height);
+    height:var(--height);
+    z-index:1;
+    opacity:0;
+    cursor:pointer;
+    margin-right:.5rem;
+}
+
+.checkbox input + .checkboxLabel {
+    z-index:0;
+}
+
+.checkbox input ~ .checkboxLabel::before {
+    content:"";
+    display:flex;
+    width:var(--height);
+    height:var(--height);
+    border:solid 2px var(--c-main);
+    box-sizing:border-box;
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+.checkbox input + svg {
+    position:absolute;
+    width:calc(var(--height) - 0.4em);
+    height:calc(var(--height) - 0.4em);
+    left:0.2em;
+    top:0.2em;
+}
+
+.checkbox input:not(:checked) + svg {
+    display:none;
+}
+
+.checkbox input + svg polygon {
+    fill:var(--c-main);
+}

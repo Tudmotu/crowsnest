@@ -1,5 +1,8 @@
 import { SalesTab } from './SalesTab.js';
 import * as Icons from '../icons.js';
+import { CollectionsState } from '../state/CollectionsState.js';
+import { InvestmentsState } from '../state/InvestmentsState.js';
+import { PortfolioSettings } from '../state/PortfolioSettings.js';
 
 export class CollectionsTable {
     constructor (el) {
@@ -7,7 +10,7 @@ export class CollectionsTable {
 
         this.el.addEventListener('click', e => {
             const menuButton = e.target.closest('.collectionMenuButton');
-            const { collection, name, thumbnail } = menuButton.dataset;
+            const { collection, name, thumbnail, hidden } = menuButton.dataset;
             if (menuButton) {
                 const rect = menuButton.getBoundingClientRect();
                 const top = window.scrollY + rect.top;
@@ -17,20 +20,33 @@ export class CollectionsTable {
                 container.innerHTML = `
                     <div id="collectionListMenu" style="top:${top}px;left:${left}px">
                         <div data-action="sales">Sales Data ${Icons.barChart}</div>
-                        <a href="https://opensea.io/activity/${collection}" target="_blank">
+                        <div data-action="hide">
+                            ${hidden === 'true' ? 'Unhide' : 'Hide'}
+                            ${Icons.hiddenEye}
+                        </div>
+                        <a data-action="activity"
+                            href="https://opensea.io/activity/${collection}"
+                            target="_blank">
                             Activity ${Icons.externalLink}
                         </a>
                     </div>
                 `;
 
                 container.addEventListener('click', e => {
-                    if (e.target.closest('#collectionListMenu')) return;
                     document.body.removeChild(container);
                 });
 
                 container.querySelector('[data-action=sales]').addEventListener('click', e => {
                     this.salesTab.open(collection, name, thumbnail);
-                    document.body.removeChild(container);
+                });
+
+                container.querySelector('[data-action=hide]').addEventListener('click', e => {
+                    if (hidden === 'false') {
+                        CollectionsState.hide(collection);
+                    }
+                    else {
+                        CollectionsState.unhide(collection);
+                    }
                 });
 
                 document.body.appendChild(container);
@@ -38,12 +54,28 @@ export class CollectionsTable {
         });
 
         this.salesTab = new SalesTab(window.body);
+
+        CollectionsState.subscribe(async () => {
+            const collections = CollectionsState.get();
+            const investments = InvestmentsState.get();
+
+            await this.render(collections);
+            this.renderROIs(investments, collections);
+        });
+
+        InvestmentsState.subscribe(async () => {
+            const investments = InvestmentsState.get();
+            const collections = CollectionsState.get();
+            this.renderROIs(investments, collections);
+        });
+
+        PortfolioSettings.subscribe(async () => {
+            this.el.dataset.showHidden = PortfolioSettings.get().showHidden;
+        });
     }
 
-    async render (collectionsRequest, investmentsRequest) {
+    async render (collections) {
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
-
-        const collections = await collectionsRequest;
 
         this.el.innerHTML = `
             <div class="listHeader"></div>
@@ -67,46 +99,51 @@ export class CollectionsTable {
                 const bVal = b.owned_asset_count * b.stats.floor_price;
                 return bVal - aVal;
             }).map(collection => {
-                const { stats, slug } = collection;
+                const { stats, slug, hidden } = collection;
                 const minValue = (collection.owned_asset_count * stats.floor_price);
                 return `
                     <div class="collectionMenuButton"
                         data-collection="${collection.slug}"
                         data-name="${collection.name}"
                         data-thumbnail="${collection.image_url}"
+                        data-hidden="${!!hidden}"
+                        data-col="menu"
                     >${Icons.menuDots}</div>
-                    <a class="thumbnail" href="https://opensea.io/collection/${collection.slug}" target="_blank">
+                    <a class="thumbnail" href="https://opensea.io/collection/${collection.slug}" target="_blank" data-hidden="${hidden}">
                         <img src="${collection.image_url}" />
                     </a>
-                    <a class="collectionName" href="https://opensea.io/collection/${collection.slug}" target="_blank">
+                    <a class="collectionName" href="https://opensea.io/collection/${collection.slug}" target="_blank" data-hidden="${hidden}">
                         ${collection.name}
                     </a>
-                    <div>${collection.owned_asset_count}</div>
-                    <div>${ethLogo}${stats.floor_price.toFixed(2)}</div>
-                    <div>${ethLogo}${minValue.toFixed(2)}</div>
+                    <div data-hidden="${hidden}">${collection.owned_asset_count}</div>
+                    <div data-hidden="${hidden}">${ethLogo}${stats.floor_price.toFixed(2)}</div>
+                    <div data-hidden="${hidden}">${ethLogo}${minValue.toFixed(2)}</div>
                     <div data-collection="${collection.slug}"
                         data-roi
-                        data-col="possibleRoi"><span>${ethLogo}--</span></div>
+                        data-col="possibleRoi"
+                        data-hidden="${hidden}"><span>${ethLogo}--</span></div>
                     <div data-collection="${collection.slug}"
                         data-roi
-                        data-col="roi"><span>${ethLogo}--</span></div>
+                        data-col="roi"
+                        data-hidden="${hidden}"><span>${ethLogo}--</span></div>
                     <div data-collection="${collection.slug}"
-                        data-col="sales">${ethLogo}--</div>
+                        data-col="sales"
+                        data-hidden="${hidden}">${ethLogo}--</div>
                     <div data-collection="${collection.slug}"
-                        data-col="investment">${ethLogo}--</div>
+                        data-col="investment"
+                        data-hidden="${hidden}">${ethLogo}--</div>
                     <div data-collection="${collection.slug}"
-                        data-col="gas">${ethLogo}--</div>
+                        data-col="gas"
+                        data-hidden="${hidden}">${ethLogo}--</div>
                     <div data-collection="${collection.slug}"
-                        data-col="fees">${ethLogo}--</div>
-                    <div>${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
-                    <div>${ethLogo}${stats.total_volume.toFixed(2)}</div>
-                    <div>${ethLogo}${stats.one_day_volume.toFixed(2)}</div>
+                        data-col="fees"
+                        data-hidden="${hidden}">${ethLogo}--</div>
+                    <div data-hidden="${hidden}">${ethLogo}${stats.one_day_average_price.toFixed(2)}</div>
+                    <div data-hidden="${hidden}">${ethLogo}${stats.total_volume.toFixed(2)}</div>
+                    <div data-hidden="${hidden}">${ethLogo}${stats.one_day_volume.toFixed(2)}</div>
                 `;
             }).join('')}
         `;
-
-        const investments = await investmentsRequest;
-        this.renderROIs(investments, collections);
     }
 
     renderROIs (investments, collections) {

@@ -1,0 +1,7 @@
+<label class="checkbox">
+    <input id="{{ include.name }}" type="checkbox" aria-describedby="{{ include.name }}Label" class="checkboxInput" />
+    {% include assets/check.svg %}
+    <span id="{{ include.name }}Label" class="checkboxLabel">
+        {{ include.label }}
+    </span>
+</label>
