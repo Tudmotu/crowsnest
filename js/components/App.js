@@ -63,9 +63,6 @@ export class App {
     }
 
     async initWithEthereum() {
-        window.stats.classList.add('hidden');
-        window.collectionList.classList.add('hidden');
-
         if (!this.provider) {
             this.provider = new Web3Provider(window.ethereum);
         }
@@ -85,6 +82,7 @@ export class App {
     async initWithAddress(address) {
         window.stats.classList.add('hidden');
         window.collectionList.classList.add('hidden');
+        window.portfolioSettings.classList.add('hidden');
 
         if (!this.provider) {
             if (window.ethereum) {
@@ -97,16 +95,18 @@ export class App {
             }
         }
 
-        InvestmentsState.set({});
+        await InvestmentsState.set({});
+        await CollectionsState.set([]);
 
         AccountState.setAddress(address);
         const collectionsRequest = opensea.getCollections(address);
         const investmentsRequest = Trades.getInvestmentStats(address, this.provider);
 
-        CollectionsState.set(collectionsRequest);
         InvestmentsState.set(investmentsRequest);
+        CollectionsState.set(collectionsRequest);
 
         window.stats.classList.remove('hidden');
         window.collectionList.classList.remove('hidden');
+        window.portfolioSettings.classList.remove('hidden');
     }
 };

@@ -246,7 +246,7 @@ input[type="text"] {
     flex:0 0 auto;
 }
 
-#portfolioActions {
+#portfolioSettings {
     padding:2rem var(--page-padding);
     display:flex;
     justify-content:flex-start;
