@@ -16,7 +16,7 @@ body {
     --c-grey:#E1E2E6;
     --c-blue-grey:#9DA3C9;
     --c-dark-grey:#6A6E88;
-    --c-offwhite:#FAFBFF;
+    --c-offwhite:#F0F3FF;
     --c-bg:var(--c-offwhite);
     --page-padding:2rem;
 
@@ -38,20 +38,21 @@ input[type="text"],
 button {
     appearance:none;
     border:solid 1px currentColor;
-    color:var(--c-main);
     font-family:"Fira Sans";
     padding:.5rem 1rem;
-    background:transparent;
 }
 
 button {
     text-transform:uppercase;
     font-weight:bold;
     cursor:pointer;
+    color:var(--c-white);
+    background:var(--c-main);
+    border-radius:.5rem;
 }
 
 button:hover {
-    background-color:var(--c-grey);
+    background-color:var(--c-secondary);
 }
 
 input[type="text"] {
@@ -59,6 +60,7 @@ input[type="text"] {
     padding-left:0;
     padding-bottom:.25rem;
     padding-top:.75rem;
+    background:transparent;
 }
 
 #topNav {
@@ -98,9 +100,8 @@ input[type="text"] {
 #pageHeader {
     display:flex;
     align-items:center;
-    padding:1rem var(--page-padding);
-    background:var(--c-grey);
-    margin-bottom:2rem;
+    padding:2rem 0;
+    margin:1rem var(--page-padding);
 }
 
 #pageTitle {
@@ -118,12 +119,10 @@ input[type="text"] {
 #pageTitle > svg {
     width:2rem;
     height:2rem;
-    margin-left:.5rem;
     margin-right:1rem;
 }
 
 #controls {
-    padding:2rem var(--page-padding);
     display:flex;
     box-sizing:border-box;
 }
@@ -140,10 +139,10 @@ input[type="text"] {
 }
 
 #stats {
-    --rows:4;
+    --rows:6;
     --columns:10;
-    --row-height:3rem;
-    --gap:2rem;
+    --row-height:2.5rem;
+    --gap:1rem;
     display:grid;
     grid-template-columns:repeat(var(--columns), 1fr);
     grid-template-rows:repeat(var(--rows), var(--row-height));
@@ -152,45 +151,43 @@ input[type="text"] {
     padding-bottom:0;
     max-width:1600px;
     box-sizing:border-box;
-    /*height:calc(var(--gap) * (var(--rows) - 1) + var(--rows) * var(--row-height) + 1rem);*/
 }
 
 .statCard {
-    box-shadow:inset 1rem 0 var(--stat-color);
     display:flex;
     flex-direction:column;
     align-items:stretch;
     justify-content:space-between;
     overflow:hidden;
+    background:var(--c-white);
+    border:solid 1px var(--c-blue-grey);
+    border-radius:.5rem;
+    padding:.5rem 1rem;
+    padding-bottom:1rem;
+    border-bottom:solid 5px var(--stat-color);
 }
 
 .statCard .statTitle {
     color:var(--c-dark-grey);
     font-size:1rem;
-    padding:0 2rem;
     text-align:left;
+    text-transform:uppercase;
 }
 
 .statCard .statValue {
     color:var(--stat-color);
-    font-size:5rem;
-    padding-right:1rem;
-    padding-left:2rem;
+    font-size:3rem;
     line-height:1;
     white-space:nowrap;
-    flex:1 1 auto;
+    flex:0 0 auto;
     overflow:hidden;
     display:flex;
-    align-items:flex-end;
+    align-items:center;
     justify-content:flex-end;
 }
 
-.statCard .statValue .ethLogo {
-    margin-bottom:.5rem;
-}
-
 .statCard.smallStat .statValue {
-    font-size:4rem;
+    font-size:2.5rem;
 }
 
 #statTotalOwned {
@@ -215,20 +212,24 @@ input[type="text"] {
 
 #statPossibleROI {
     --stat-color:var(--c-blue-grey);
-    grid-area:1 / 5 / span 2 / span 2;
+    grid-area:5 / 1 / span 2 / span 2;
+}
+
+#statTotalInvestment {
+    --stat-color:var(--c-secondary);
+    grid-area:5 / 3 / span 2 / span 2;
 }
 
 #statPossibleROI[data-roi=negative] { --stat-color:var(--c-red); }
 #statPossibleROI[data-roi=positive] { --stat-color:var(--c-green); }
 
-#statTotalInvestment {
-    --stat-color:var(--c-secondary);
-    grid-area:3 / 5 / span 2 / span 2;
-}
-
 #statCollectionBreakdown {
     --stat-color:var(--c-main);
-    grid-area:1 / 7 / span 4 / span 4;
+    grid-area:1 / 5 / span 6 / span 4;
+}
+
+#statCollectionBreakdown .statValue {
+    flex:1 1 auto;
 }
 
 #statCollectionPieChart {
@@ -247,18 +248,28 @@ input[type="text"] {
 }
 
 #portfolioSettings {
-    padding:2rem var(--page-padding);
+    margin:1rem var(--page-padding);
+    margin-bottom:0;
+    padding:1rem;
     display:flex;
-    justify-content:flex-start;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--c-white);
+    border:solid 1px var(--c-blue-grey);
+    border-bottom:0;
+    border-radius:.5rem .5rem 0 0;
+}
+
+#portfolioSettings h2 {
+    color:var(-c--main);
+    margin:0;
 }
 
 #collectionList {
-    --border-radius:1rem;
-    --border:solid 1px var(--c-grey);
-    --margin:var(--page-padding);
-    margin:var(--margin);
+    margin:0 var(--page-padding);
     margin-top:0;
-    border:var(--border);
+    border:solid 1px var(--c-blue-grey);
+    border-radius:0 0 .5rem .5rem;
     background-color:var(--c-white);
     display:grid;
     grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
