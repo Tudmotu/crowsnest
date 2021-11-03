@@ -105,6 +105,23 @@ export class App {
         InvestmentsState.set(investmentsRequest);
         CollectionsState.set(collectionsRequest);
 
+        window.mainLoader.classList.remove('hidden');
+
+        for (let collection of (await collectionsRequest)) {
+            let statResponse;
+
+            try {
+                statResponse = await opensea.getStats(collection.slug);
+            }
+            catch (e) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                statResponse = await opensea.getStats(collection.slug);
+            }
+
+            CollectionsState.updateStats(collection.slug, statResponse.stats);
+        }
+
+        window.mainLoader.classList.add('hidden');
         window.stats.classList.remove('hidden');
         window.collectionList.classList.remove('hidden');
         window.portfolioSettings.classList.remove('hidden');
