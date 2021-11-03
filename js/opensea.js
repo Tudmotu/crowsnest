@@ -47,6 +47,16 @@ export async function getTrades (userAddress) {
     }, 'asset_events');
 }
 
+export async function getStats (collection) {
+    const url = `https://api.opensea.io/api/v1/collection/${collection}/stats`;
+
+    return (await fetch(url, {
+        headers: {
+            'X-API-KEY': 'ba135508d825420780a3cd2effc30166'
+        }
+    })).json();
+}
+
 export async function getCollections (userAddress) {
     const batchSize = 300;
     const fullResults = [];
