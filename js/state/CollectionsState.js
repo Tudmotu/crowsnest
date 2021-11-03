@@ -95,6 +95,11 @@ export class CollectionsStateComponent extends AbstractStateComponent {
         unhideForAccount(address, collection);
         await this.emitUpdate();
     }
+
+    async updateStats (collection, stats) {
+        this.getCollection(collection).stats = stats;
+        await this.emitUpdate();
+    }
 }
 
 export const CollectionsState = new CollectionsStateComponent(AccountState);
