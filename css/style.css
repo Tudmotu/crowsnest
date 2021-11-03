@@ -139,6 +139,19 @@ input[type="text"] {
     color:var(--c-main);
 }
 
+#mainLoader {
+    margin:auto;
+    width:6rem;
+}
+
+#mainLoader > svg {
+    overflow:visible;
+    fill:var(--c-secondary);
+    stroke:var(--c-secondary);
+    width:100%;
+    height:auto;
+}
+
 #stats {
     --rows:4;
     --columns:10;
