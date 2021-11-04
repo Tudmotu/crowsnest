@@ -1,12 +1,40 @@
+import * as analytics from './analytics.js';
+
+async function failsafeRequest (url) {
+    async function request () {
+        return await fetch(url, {
+            headers: { 'X-API-KEY': 'ba135508d825420780a3cd2effc30166' }
+        });
+    }
+
+    let response;
+
+    try {
+        response = await request();
+
+        if (response.status === 429) throw new Error('OpenSea API rate-limit');
+        if (response.ok !== true) throw new Error('OpenSea API request failed');
+    }
+    catch (e) {
+        analytics.error(e.message);
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        response = await request();
+
+        if (response.ok !== true) {
+            analytics.error('OpenSea API retry failed');
+            return await failsafeRequest(url);
+        }
+    }
+
+    return await response.json();
+}
+
 async function api (endpoint, params) {
     const qs = new URLSearchParams(params).toString();
     const url = `https://api.opensea.io/api/v1/${endpoint}?${qs}`;
 
-    return (await fetch(url, {
-        headers: {
-            'X-API-KEY': 'ba135508d825420780a3cd2effc30166'
-        }
-    })).json();
+    return await failsafeRequest(url);
 }
 
 async function getInBatches (endpoint, params, dataProp) {
@@ -50,11 +78,7 @@ export async function getTrades (userAddress) {
 export async function getStats (collection) {
     const url = `https://api.opensea.io/api/v1/collection/${collection}/stats`;
 
-    return (await fetch(url, {
-        headers: {
-            'X-API-KEY': 'ba135508d825420780a3cd2effc30166'
-        }
-    })).json();
+    return await failsafeRequest(url);
 }
 
 export async function getCollections (userAddress) {

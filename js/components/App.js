@@ -108,16 +108,7 @@ export class App {
         window.mainLoader.classList.remove('hidden');
 
         for (let collection of (await collectionsRequest)) {
-            let statResponse;
-
-            try {
-                statResponse = await opensea.getStats(collection.slug);
-            }
-            catch (e) {
-                await new Promise(resolve => setTimeout(resolve, 500));
-                statResponse = await opensea.getStats(collection.slug);
-            }
-
+            const statResponse = await opensea.getStats(collection.slug);
             CollectionsState.updateStats(collection.slug, statResponse.stats);
         }
 
