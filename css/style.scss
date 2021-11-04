@@ -1,5 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
-@import url('./components/checkbox.css');
+---
+# SCSS
+---
+
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+@import 'card';
+@import 'checkbox';
 
 body {
     --c-main:#363E70;
@@ -17,12 +22,12 @@ body {
     --c-blue-grey:#9DA3C9;
     --c-dark-grey:#6A6E88;
     --c-offwhite:#F0F3FF;
-    --c-bg:var(--c-offwhite);
+    --c-bg:var(--c-black);
     --page-padding:2rem;
 
     position:relative;
     margin:0;
-    color:var(--c-black);
+    color:var(--c-white);
     background-color:var(--c-bg);
     font-family:"Fira Sans";
     display:flex;
@@ -61,6 +66,7 @@ input[type="text"] {
     padding-bottom:.25rem;
     padding-top:.75rem;
     background:transparent;
+    color:currentColor;
 }
 
 #topNav {
@@ -109,11 +115,11 @@ input[type="text"] {
     margin-right:auto;
     display:flex;
     align-items:center;
-    color:var(--c-main);
+    color:var(--c-white);
 }
 
 #pageTitle > svg path {
-    fill:var(--c-main);
+    fill:var(--c-white);
 }
 
 #pageTitle > svg {
@@ -135,7 +141,6 @@ input[type="text"] {
     font-weight:bold;
     margin:0 1rem;
     align-self:center;
-    color:var(--c-main);
 }
 
 #mainLoader {
@@ -167,28 +172,23 @@ input[type="text"] {
 }
 
 .statCard {
+    @include card;
     display:flex;
     flex-direction:column;
     align-items:stretch;
     justify-content:space-between;
     overflow:hidden;
-    background:var(--c-white);
-    border:solid 1px var(--c-blue-grey);
-    border-radius:.5rem;
     padding:.5rem 1rem;
     padding-bottom:1rem;
-    border-bottom:solid 5px var(--stat-color);
 }
 
 .statCard .statTitle {
-    color:var(--c-dark-grey);
     font-size:1rem;
     text-align:left;
     text-transform:uppercase;
 }
 
 .statCard .statValue {
-    color:var(--stat-color);
     font-size:3rem;
     line-height:1;
     white-space:nowrap;
@@ -261,16 +261,10 @@ input[type="text"] {
 }
 
 #portfolioSettings {
-    margin:1rem var(--page-padding);
-    margin-bottom:0;
-    padding:1rem;
+    margin:2rem var(--page-padding);
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:var(--c-white);
-    border:solid 1px var(--c-blue-grey);
-    border-bottom:0;
-    border-radius:.5rem .5rem 0 0;
 }
 
 #portfolioSettings h2 {
@@ -279,11 +273,9 @@ input[type="text"] {
 }
 
 #collectionList {
+    @include card;
     margin:0 var(--page-padding);
     margin-top:0;
-    border:solid 1px var(--c-blue-grey);
-    border-radius:0 0 .5rem .5rem;
-    background-color:var(--c-white);
     display:grid;
     grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     row-gap:1rem;
@@ -601,6 +593,10 @@ input[type="text"] {
     height:.75em;
     min-width:1rem;
     min-height:1rem;
+    background:var(--c-white);
+    border-radius: 50%;
+    padding: .25rem;
+    margin-right: .5rem;
 }
 
 .hidden {
