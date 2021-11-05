@@ -1,6 +1,6 @@
 import * as analytics from './analytics.js';
 
-async function failsafeRequest (url) {
+export async function failsafeRequest (url) {
     async function request () {
         return await fetch(url, {
             headers: { 'X-API-KEY': 'ba135508d825420780a3cd2effc30166' }
@@ -16,7 +16,7 @@ async function failsafeRequest (url) {
         if (response.ok !== true) throw new Error('OpenSea API request failed');
     }
     catch (e) {
-        analytics.error(e.message);
+        analytics.warning(e.message);
 
         await new Promise(resolve => setTimeout(resolve, 1000));
         response = await request();
@@ -27,7 +27,7 @@ async function failsafeRequest (url) {
         }
     }
 
-    return await response.json();
+    return response.json();
 }
 
 async function api (endpoint, params) {
