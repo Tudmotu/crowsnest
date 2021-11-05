@@ -80,6 +80,7 @@ export class App {
     }
 
     async initWithAddress(address) {
+        window.mainLoader.classList.remove('hidden');
         window.stats.classList.add('hidden');
         window.collectionList.classList.add('hidden');
         window.portfolioSettings.classList.add('hidden');
