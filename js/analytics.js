@@ -28,3 +28,7 @@ export function initFromQueryParam (address) {
 export function error (message) {
     mixpanel.track('error', { message });
 }
+
+export function warning (message) {
+    mixpanel.track('warning', { message });
+}

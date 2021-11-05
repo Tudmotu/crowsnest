@@ -37,7 +37,7 @@ export class App {
         });
     }
 
-    start () {
+    async start () {
         if (window.ethereum) analytics.walletExists();
 
         window.addEventListener('popstate', e => {
@@ -47,18 +47,18 @@ export class App {
 
         const searchParams = new URLSearchParams(location.search);
 
-        this.init(searchParams.get('address'));
+        await this.init(searchParams.get('address'));
     }
 
-    init (address) {
+    async init (address) {
         if (address) {
             this.controlsComponent.setCustomAddressValue(address)
-            this.initWithAddress(address);
+            await this.initWithAddress(address);
             analytics.initFromQueryParam(customAddress);
         }
         else if (window.ethereum) {
             this.controlsComponent.setCustomAddressValue('')
-            this.initWithEthereum();
+            await this.initWithEthereum();
         }
     }
 
@@ -69,17 +69,13 @@ export class App {
 
         const signer = this.provider.getSigner();
 
-        try {
-            const address = await signer.getAddress();
-            this.initWithAddress(address);
-            analytics.walletConnected(address);
-        }
-        catch (e) {
-            analytics.walletExistsNotConnected();
-        }
+        const address = await signer.getAddress();
+        await this.initWithAddress(address);
+        analytics.walletConnected(address);
     }
 
     async initWithAddress(address) {
+        window.mainLoader.classList.remove('hidden');
         window.stats.classList.add('hidden');
         window.collectionList.classList.add('hidden');
         window.portfolioSettings.classList.add('hidden');
