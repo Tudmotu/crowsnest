@@ -8,20 +8,26 @@
 
 body {
     --c-main:#363E70;
+    --c-main-dark:#1D223D;
     --c-secondary:#5B68BD;
     --c-light:#798BFC;
-    --c-magenta:#B722BD;
-    --c-black:#1D223D;
+
     --c-white:#fff;
+    --c-light-grey:#E1E2E6;
+    --c-grey:#6A6E88;
+    --c-dark-grey:#383b4c;
+    --c-black:#272935;
+
     --c-green:#47702B;
     --c-red:#BD353F;
     --c-yellow:#D6B23C;
     --c-purple:#89428A;
+    --c-magenta:#B722BD;
     --c-teal:#36A38D;
-    --c-grey:#E1E2E6;
+
     --c-blue-grey:#9DA3C9;
-    --c-dark-grey:#6A6E88;
     --c-offwhite:#F0F3FF;
+
     --c-bg:var(--c-black);
     --c-accent:var(--c-yellow);
     --page-padding:2rem;
@@ -283,12 +289,11 @@ input[type="text"] {
 #collectionList {
     display:grid;
     grid-template-columns:4rem 5rem 3fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    row-gap:1rem;
     align-items:stretch;
     box-sizing:border-box;
     position:relative;
     overflow-x:auto;
-    background:var(--c-main);
+    background:var(--c-dark-grey);
 }
 
 #collectionListMenuContainer {
@@ -302,7 +307,7 @@ input[type="text"] {
     position:absolute;
     margin-left:2rem;
     width:10rem;
-    border:solid 1px var(--c-grey);
+    border:solid 1px var(--c-light-grey);
     box-shadow:-2px 2px 2px rgba(0,0,0,.1), 2px 2px 2px rgba(0,0,0,.1);
     background-color:var(--c-white);
     display:flex;
@@ -319,7 +324,7 @@ input[type="text"] {
 }
 
 #collectionListMenu > *:not(:last-child) {
-    border-bottom:solid 1px var(--c-grey);
+    border-bottom:solid 1px var(--c-light-grey);
 }
 
 #collectionListMenu > * {
@@ -348,16 +353,16 @@ input[type="text"] {
 }
 
 #collectionList > .listHeader {
-    padding:1rem !important;
+    padding:.5rem 1rem !important;
     display:flex;
     align-items:center;
     justify-content:flex-start;
-    border-bottom:solid 1px var(--c-white);
 }
 
 #collectionList > *:not(#collectionListMenu) {
     padding:0 1rem;
     box-sizing:border-box;
+    border-top:solid 1px var(--c-grey);
 }
 
 #collectionList:not([data-show-hidden="true"]) > [data-hidden="true"] {
@@ -433,9 +438,10 @@ input[type="text"] {
 }
 
 #collectionList .thumbnail img {
-    height:4rem;
-    width:4rem;
-    border-radius:50%;
+    height:3rem;
+    width:3rem;
+    margin:.5rem;
+    border-radius:.5rem;
     border:solid 1px var(--c-accent);
 }
 
@@ -449,7 +455,7 @@ input[type="text"] {
     position:sticky;
     top:0;
     background-color:var(--c-white);
-    border-bottom:solid 1px var(--c-grey);
+    border-bottom:solid 1px var(--c-light-grey);
 }
 
 #salesTabContainer {
@@ -468,7 +474,7 @@ input[type="text"] {
     max-width:92vw;
     height:50rem;
     max-height:90vh;
-    border:solid 1px var(--c-grey);
+    border:solid 1px var(--c-light-grey);
     box-shadow:-2px 2px 2px rgba(0,0,0,.1), 2px 2px 2px rgba(0,0,0,.1);
     background:var(--c-white);
     overflow:auto;
@@ -483,7 +489,7 @@ input[type="text"] {
     display:flex;
     align-items:center;
     flex-direction:column;
-    background-color:var(--c-grey);
+    background-color:var(--c-light-grey);
     padding-top:2rem;
     position:sticky;
     top:0;
@@ -493,7 +499,7 @@ input[type="text"] {
     width:5rem;
     height:5rem;
     border-radius:50%;
-    border:solid 1px var(--c-grey);
+    border:solid 1px var(--c-light-grey);
 }
 
 #salesTabPane > header > h1 {
@@ -523,7 +529,7 @@ input[type="text"] {
 }
 
 #salesTabPane h2 {
-    border-top:solid 1px var(--c-grey);
+    border-top:solid 1px var(--c-light-grey);
     padding-top:1rem;
     color:var(--c-main);
 }
@@ -558,12 +564,12 @@ input[type="text"] {
 
 #salesTabPane .soldItems img {
     width:5rem;
-    border:solid 1px var(--c-grey);
+    border:solid 1px var(--c-light-grey);
     border-radius:.5rem;
 }
 
 #salesTabPane .salesMeter {
-    --bg:var(--c-grey);
+    --bg:var(--c-light-grey);
     background:linear-gradient(transparent 33%, var(--bg) 33%, var(--bg) 66%, transparent 66%);
     background-size: calc(100% - 2rem) 100%;
     background-repeat: no-repeat;
@@ -571,7 +577,7 @@ input[type="text"] {
 }
 
 #salesTabPane .salesMeter > span {
-    --meter-color:var(--c-grey);
+    --meter-color:var(--c-light-grey);
     font-size:.75rem;
     height:3rem;
     width:3rem;
