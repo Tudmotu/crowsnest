@@ -110,7 +110,7 @@ export class CollectionsTable {
                         data-col="menu"
                     >${Icons.menuDots}</div>
                     <a class="thumbnail" href="https://opensea.io/collection/${collection.slug}" target="_blank" data-hidden="${hidden}">
-                        <img src="${collection.image_url}" />
+                        <img src="${collection.image_url ?? './assets/placeholder.svg'}" />
                     </a>
                     <a class="collectionName" href="https://opensea.io/collection/${collection.slug}" target="_blank" data-hidden="${hidden}">
                         ${collection.name}

@@ -148,4 +148,9 @@ describe('CollectionsTable component', () => {
         expect(getCell('collectionB', 'gas')).toHaveTextContent(/^0\.10$/);
         expect(getCell('collectionB', 'fees')).toHaveTextContent(/^0\.05$/);
     });
+
+    test('should render image with "./assets/placeholder.svg" when image is null', async () => {
+        await table.render(collections);
+        expect(container).toContainHTML(`<img src="./assets/placeholder.svg">`);
+    });
 });
