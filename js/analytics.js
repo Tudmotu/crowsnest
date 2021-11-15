@@ -24,3 +24,11 @@ export function walletConnected (address) {
 export function initFromQueryParam (address) {
     mixpanel.track('init_from_query_param');
 }
+
+export function error (message) {
+    mixpanel.track('error', { message });
+}
+
+export function warning (message) {
+    mixpanel.track('warning', { message });
+}
