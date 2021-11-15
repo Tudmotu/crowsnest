@@ -148,6 +148,13 @@ input[type="text"] {
 #mainLoader {
     margin:auto;
     width:6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#loaderCollectionCount {
+    white-space:nowrap;
 }
 
 #mainLoader > svg {
@@ -156,6 +163,7 @@ input[type="text"] {
     stroke:var(--c-secondary);
     width:100%;
     height:auto;
+    margin-bottom:1rem;
 }
 
 #stats {

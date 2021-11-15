@@ -103,9 +103,12 @@ export class App {
 
         window.mainLoader.classList.remove('hidden');
 
-        for (let collection of (await collectionsRequest)) {
+        const collections = await collectionsRequest;
+        for (let collection of collections) {
+            const i = collections.indexOf(collection) + 1;
             const statResponse = await opensea.getStats(collection.slug);
             CollectionsState.updateStats(collection.slug, statResponse.stats);
+            window.loaderCollectionCount.textContent = `Loading collections... ${i}/${collections.length}`;
         }
 
         window.mainLoader.classList.add('hidden');
