@@ -200,11 +200,7 @@ input[type="text"] {
     overflow:hidden;
     display:flex;
     align-items:center;
-    justify-content:flex-end;
-}
-
-.statCard .statValue .ethLogo {
-    margin-right:auto;
+    justify-content:flex-start;
 }
 
 .statCard.smallStat .statValue {
@@ -269,8 +265,6 @@ input[type="text"] {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:var(--c-main);
-    border-top:solid 1px var(--c-secondary);
 }
 
 #portfolioSettings h2 {
@@ -286,7 +280,7 @@ input[type="text"] {
     box-sizing:border-box;
     position:relative;
     overflow-x:auto;
-    border-top:solid 1px var(--c-main);
+    background:var(--c-main);
 }
 
 #collectionListMenuContainer {
@@ -350,9 +344,7 @@ input[type="text"] {
     display:flex;
     align-items:center;
     justify-content:flex-start;
-    border-bottom:solid 1px var(--c-secondary);
-    border-top:solid 1px var(--c-black);
-    background:var(--c-main);
+    border-bottom:solid 1px var(--c-white);
 }
 
 #collectionList > *:not(#collectionListMenu) {
