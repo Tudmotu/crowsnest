@@ -26,7 +26,7 @@
     display:flex;
     width:var(--height);
     height:var(--height);
-    border:solid 2px var(--c-main);
+    border:solid 2px currentColor;
     box-sizing:border-box;
     position:absolute;
     left:0;
@@ -46,5 +46,5 @@
 }
 
 .checkbox input + svg polygon {
-    fill:var(--c-main);
+    fill:currentColor;
 }

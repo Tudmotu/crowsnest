@@ -1,0 +1,5 @@
+@mixin card {
+    background:var(--c-main);
+    border-radius:.5rem;
+    color:var(--c-white);
+}

@@ -83,7 +83,8 @@ export class PortfolioStats {
                         {
                             label: 'Collections',
                             data: series,
-                            backgroundColor: colors
+                            backgroundColor: colors,
+                            borderWidth: 0
                         }
                     ]
                 },
@@ -93,10 +94,14 @@ export class PortfolioStats {
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
+                            labels: {
+                                color: textColor
+                            },
                             position: 'right'
                         },
                         datalabels: {
                             color: textColor,
+                            lineWidth: 0,
                             formatter: (value, context) => `Ξ${value.toFixed(2)}`,
                             font: {
                                 family: '"Fira Sans"',

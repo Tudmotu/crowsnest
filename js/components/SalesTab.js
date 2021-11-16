@@ -97,7 +97,7 @@ export class SalesTab {
     }
 
     aggregateData (sales) {
-        const simplified = [...sales].map(sale => {
+        const simplified = [...sales].filter(s => s.asset).map(sale => {
             const formattedEth = ethers.utils.formatEther(sale.total_price);
             const etherPrice = parseFloat(formattedEth, 10);
             return {

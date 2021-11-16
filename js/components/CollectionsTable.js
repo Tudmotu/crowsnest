@@ -110,10 +110,10 @@ export class CollectionsTable {
                         data-col="menu"
                     >${Icons.menuDots}</div>
                     <a class="thumbnail" href="https://opensea.io/collection/${collection.slug}" target="_blank" data-hidden="${hidden}">
-                        <img src="${collection.image_url}" />
+                        <img src="${collection.image_url ?? './assets/placeholder.svg'}" />
                     </a>
                     <a class="collectionName" href="https://opensea.io/collection/${collection.slug}" target="_blank" data-hidden="${hidden}">
-                        ${collection.name}
+                        <span>${collection.name}${Icons.externalLink}</span>
                     </a>
                     <div data-hidden="${hidden}">${collection.owned_asset_count}</div>
                     <div data-hidden="${hidden}">${ethLogo}${stats.floor_price.toFixed(2)}</div>

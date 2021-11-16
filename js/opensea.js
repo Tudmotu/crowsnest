@@ -1,6 +1,6 @@
 import * as analytics from './analytics.js';
 
-export async function failsafeRequest (url) {
+export async function failsafeRequest (url, attemptNumber = 1) {
     async function request () {
         return await fetch(url, {
             headers: { 'X-API-KEY': 'ba135508d825420780a3cd2effc30166' }
@@ -14,20 +14,20 @@ export async function failsafeRequest (url) {
 
         if (response.status === 429) throw new Error('OpenSea API rate-limit');
         if (response.ok !== true) throw new Error('OpenSea API request failed');
+
+        return response.json();
     }
     catch (e) {
-        analytics.warning(e.message);
-
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        response = await request();
-
-        if (response.ok !== true) {
+        if (attemptNumber === 3) {
             analytics.error('OpenSea API retry failed');
-            return await failsafeRequest(url);
+            throw new Error('OpenSea API retry failed');
+        }
+        else {
+            analytics.warning(e.message);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return failsafeRequest(url, attemptNumber + 1);
         }
     }
-
-    return response.json();
 }
 
 async function api (endpoint, params) {

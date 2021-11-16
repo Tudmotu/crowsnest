@@ -14,7 +14,7 @@ describe('opensea module', () => {
             jest.clearAllMocks();
         });
 
-        it('should keep retrying if retry failed', async () => {
+        it('should retry 2 times', async () => {
             global.fetch.mockResolvedValueOnce({
                 ok: false
             }).mockResolvedValueOnce({
@@ -43,17 +43,18 @@ describe('opensea module', () => {
         });
 
 
-        it('should report error if retry fails', async () => {
+        it('should report error if it fails 3 times', async () => {
             global.fetch.mockResolvedValueOnce({
                 ok: false
             }).mockResolvedValueOnce({
                 ok: false
             }).mockResolvedValueOnce({
-                ok: true,
-                json: () => {}
+                ok: false
             });
 
-            await opensea.failsafeRequest('aaa');
+            await expect(async () => {
+                await opensea.failsafeRequest('aaa');
+            }).rejects.toThrow('OpenSea API retry failed');
 
             expect(analytics.error).toHaveBeenCalledWith('OpenSea API retry failed');
         });

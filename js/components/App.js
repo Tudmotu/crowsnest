@@ -2,12 +2,14 @@ import { ethers, providers, BigNumber } from '../../node_modules/ethers/dist/eth
 import { PortfolioStats } from './PortfolioStats.js';
 import { CollectionsTable } from './CollectionsTable.js';
 import { Controls } from './Controls.js';
+import { ErrorToast } from './GlobalErrorMessage.js';
 import * as Trades from '../data/Trades.js';
 import * as opensea from '../opensea.js';
 import * as analytics from '../analytics.js';
 import { CollectionsState } from '../state/CollectionsState.js';
 import { AccountState } from '../state/AccountState.js';
 import { InvestmentsState } from '../state/InvestmentsState.js';
+import { GlobalErrorState } from '../state/GlobalErrorState.js';
 import { PortfolioSettings } from '../state/PortfolioSettings.js';
 
 const { Web3Provider, WebSocketProvider } = providers;
@@ -35,6 +37,8 @@ export class App {
         document.getElementById('showHiddenCheckbox').addEventListener('change', e => {
             PortfolioSettings.toggleHidden(e.target.checked);
         });
+
+        this.errorToast = new ErrorToast(GlobalErrorState);
     }
 
     async start () {
@@ -103,9 +107,22 @@ export class App {
 
         window.mainLoader.classList.remove('hidden');
 
-        for (let collection of (await collectionsRequest)) {
-            const statResponse = await opensea.getStats(collection.slug);
-            CollectionsState.updateStats(collection.slug, statResponse.stats);
+        try {
+            const collections = await collectionsRequest;
+
+            for (let collection of collections) {
+                const statResponse = await opensea.getStats(collection.slug);
+                const i = collections.indexOf(collection) + 1;
+                CollectionsState.updateStats(collection.slug, statResponse.stats);
+                window.loaderCollectionCount.textContent = `
+                    Loading collections... ${i}/${collections.length}
+                `;
+            }
+        }
+        catch (e) {
+            console.error('Failed loading collections:', e.message);
+            GlobalErrorState.set('Failed while fetching collections from OpenSea API. Please try refreshing the page.');
+            return;
         }
 
         window.mainLoader.classList.add('hidden');
