@@ -123,6 +123,17 @@ test('open() should invoke opensea.getSalesData() with appropriate collection', 
     expect(opensea.getSalesData).toHaveBeenCalledWith('crypto-test');
 });
 
+test('aggregateData() method does not fail on bundle sales', () => {
+    const salesWithBundle = [...sales];
+    salesWithBundle.push({
+        total_price: '14100000000000000',
+        created_date: new Date(hoursAgo(1)).toISOString().replace('Z', ''),
+        asset_bundle: {}
+    });
+
+    expect(() => instance.aggregateData(salesWithBundle)).not.toThrow();
+});
+
 test('aggregateData() method', () => {
     const aggregated = instance.aggregateData(sales);
 
