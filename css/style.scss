@@ -336,9 +336,15 @@ input[type="text"] {
 }
 
 #collectionList .collectionName {
-    color:var(--c-accent);
+    color:var(--c-white);
     display:flex;
     align-items:center;
+}
+
+#collectionList .collectionName svg {
+    height: .75rem;
+    fill: #fff;
+    margin: 0 .5rem;
 }
 
 #collectionListMenu svg {
@@ -622,7 +628,7 @@ input[type="text"] {
 }
 
 a {
-    color:var(--c-secondary);
+    color:var(--c-light);
     text-decoration:none;
 }
 
