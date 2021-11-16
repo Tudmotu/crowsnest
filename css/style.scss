@@ -608,6 +608,20 @@ input[type="text"] {
     margin-top:.5rem;
 }
 
+.errorToast {
+    width: 20rem;
+    max-width:70%;
+    background: var(--c-red);
+    padding: 1.5rem 2rem;
+    border-radius: .5rem;
+    border: solid 1px var(--c-light-grey);
+    margin: auto;
+    position: fixed;
+    bottom: 5rem;
+    left: 0;
+    right: 0;
+}
+
 #salesTabPane .salesMeter > span:nth-child(1) { --meter-color:var(--c-red); }
 #salesTabPane .salesMeter > span:nth-child(2) { --meter-color:var(--c-yellow); }
 #salesTabPane .salesMeter > span:nth-child(3) { --meter-color:var(--c-green); }
