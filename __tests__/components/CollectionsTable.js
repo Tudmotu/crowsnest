@@ -48,15 +48,15 @@ describe('CollectionsTable component', () => {
                 investment: 0.08,
                 sales: 0,
                 gasPaid: 0.02,
-                realized_roi: -0.08,
-                feesPaid: 0
+                feesPaid: 0,
+                realized_roi: -0.1
             },
             collectionB: {
                 investment: 0.5,
                 sales: 0.25,
-                realized_roi: -0.25,
                 gasPaid: 0.1,
-                feesPaid: 0.05
+                feesPaid: 0.05,
+                realized_roi: -0.4
             }
         };
 
@@ -129,6 +129,23 @@ describe('CollectionsTable component', () => {
         expect(salesButton).not.toBe(null);
         expect(hideButton).not.toBe(null);
         expect(activityButton).not.toBe(null);
+    });
+
+    test('should not throw error even if "stats" object is empty', async () => {
+        const collectionsWithNoStats = [
+            {
+                slug: 'collectionA',
+                owned_asset_count: 2,
+                stats: {}
+            }
+        ];
+
+        await table.render(collectionsWithNoStats);
+
+        expect(getCell('collectionA', 'floor')).toHaveTextContent(/^--$/);
+        expect(getCell('collectionA', 'oneDayAvg')).toHaveTextContent(/^--$/);
+        expect(getCell('collectionA', 'totalVolume')).toHaveTextContent(/^--$/);
+        expect(getCell('collectionA', 'oneDayVolume')).toHaveTextContent(/^--$/);
     });
 
     test('should render "Gas Spent", "Fees Paid" and ROI columns', async () => {

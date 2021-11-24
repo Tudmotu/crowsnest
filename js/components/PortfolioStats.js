@@ -33,7 +33,7 @@ export class PortfolioStats {
 
     renderPieChart (el, collections) {
         const bodyStyle = getComputedStyle(document.body);
-        const textColor = bodyStyle.getPropertyValue('--c-white');
+        const textColor = '#fff';
         const c1 = bodyStyle.getPropertyValue('--c-blue-grey');
         const c2 = bodyStyle.getPropertyValue('--c-light');
         const c3 = bodyStyle.getPropertyValue('--c-secondary');
