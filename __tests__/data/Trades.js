@@ -85,7 +85,7 @@ describe('getInvestmentStats()', () => {
                 gasPaid: 0,
                 investment: 0,
                 mints: 0,
-                realized_roi: 0.7,
+                realized_roi: (0.7 - 0.07),
                 sales: 0.7
             },
             collectionB: {
@@ -94,7 +94,7 @@ describe('getInvestmentStats()', () => {
                 gasPaid: 0.00084,
                 investment: 0.04,
                 mints: 0.04,
-                realized_roi: -0.04,
+                realized_roi: -0.04084,
                 sales: 0
             },
             collectionD: {

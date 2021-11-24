@@ -129,7 +129,7 @@ export async function getInvestmentStats (address, provider) {
             gasPaid: parseFloat(formatEther(gasPaid), 10),
             feesPaid: parseFloat(formatEther(feesPaid), 10),
             investment: buys + mints,
-            realized_roi: sales - buys - mints
+            realized_roi: sales - buys - mints - parseFloat(formatEther(gasPaid), 10) - parseFloat(formatEther(feesPaid), 10)
         };
     }
 
