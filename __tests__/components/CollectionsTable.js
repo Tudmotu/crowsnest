@@ -131,6 +131,23 @@ describe('CollectionsTable component', () => {
         expect(activityButton).not.toBe(null);
     });
 
+    test('should not throw error even if "stats" object is empty', async () => {
+        const collectionsWithNoStats = [
+            {
+                slug: 'collectionA',
+                owned_asset_count: 2,
+                stats: {}
+            }
+        ];
+
+        await table.render(collectionsWithNoStats);
+
+        expect(getCell('collectionA', 'floor')).toHaveTextContent(/^--$/);
+        expect(getCell('collectionA', 'oneDayAvg')).toHaveTextContent(/^--$/);
+        expect(getCell('collectionA', 'totalVolume')).toHaveTextContent(/^--$/);
+        expect(getCell('collectionA', 'oneDayVolume')).toHaveTextContent(/^--$/);
+    });
+
     test('should render "Gas Spent", "Fees Paid" and ROI columns', async () => {
         await table.render(collections);
         await table.renderROIs(rois, collections);
