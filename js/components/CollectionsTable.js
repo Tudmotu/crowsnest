@@ -159,7 +159,7 @@ export class CollectionsTable {
             const gas = data?.gasPaid ?? 0;
             const fees = data?.feesPaid ?? 0;
             const realizedRoi = data?.realized_roi ?? 0;
-            const possibleRoi = realizedRoi + minValue - gas - fees;
+            const possibleRoi = realizedRoi + minValue;
             const roiSentiment = realizedRoi > 0 ? 'positive' : 'negative';
             const possibleRoiSentiment = possibleRoi > 0 ? 'positive' : 'negative';
             const getCell = col => {

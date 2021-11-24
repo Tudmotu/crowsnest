@@ -48,15 +48,15 @@ describe('CollectionsTable component', () => {
                 investment: 0.08,
                 sales: 0,
                 gasPaid: 0.02,
-                realized_roi: -0.08,
-                feesPaid: 0
+                feesPaid: 0,
+                realized_roi: -0.1
             },
             collectionB: {
                 investment: 0.5,
                 sales: 0.25,
-                realized_roi: -0.25,
                 gasPaid: 0.1,
-                feesPaid: 0.05
+                feesPaid: 0.05,
+                realized_roi: -0.4
             }
         };
 
