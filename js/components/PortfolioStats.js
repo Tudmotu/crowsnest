@@ -6,6 +6,8 @@ window.Chart.register(window.ChartDataLabels);
 export class PortfolioStats {
     constructor (el, investmentsState, collectionsState) {
         this.el = el;
+        this.collectionsState = collectionsState;
+        this.investmentsState = investmentsState;
 
         collectionsState.subscribe(async () => {
             this.renderCollectionsStats(collectionsState.getVisible());
@@ -32,6 +34,8 @@ export class PortfolioStats {
     }
 
     renderPieChart (el, collections) {
+        if (this.renderingPaused) return;
+
         const bodyStyle = getComputedStyle(document.body);
         const textColor = '#fff';
         const c1 = bodyStyle.getPropertyValue('--c-blue-grey');
@@ -115,6 +119,8 @@ export class PortfolioStats {
     }
 
     resetStats () {
+        if (this.renderingPaused) return;
+
         this.getEl('#statTotalOwned').querySelector('.statValue').textContent = '--';
         this.getEl('#statMinValue').querySelector('.statValue').textContent = '--';
         this.getEl('#statAvgValue').querySelector('.statValue').textContent = '--';
@@ -124,6 +130,8 @@ export class PortfolioStats {
     }
 
     async renderCollectionsStats (collections) {
+        if (this.renderingPaused) return;
+
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         const totalOwned = collections.reduce((sum, curr) => sum + curr.owned_asset_count, 0);
@@ -143,6 +151,8 @@ export class PortfolioStats {
     }
 
     async renderRoiStats (investmentStats, collections) {
+        if (this.renderingPaused) return;
+
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         if (Object.keys(investmentStats).length === 0) return;
@@ -173,5 +183,32 @@ export class PortfolioStats {
 
         const roiSign = possibleROI > 0 ? 'positive' : 'negative';
         this.getEl('#statPossibleROI').dataset.roi = roiSign;
+    }
+
+    pauseRendering () {
+        this.renderingPaused = true;
+    }
+
+    async resumeRendering () {
+        this.renderingPaused = false;
+
+        this.renderCollectionsStats(this.collectionsState.getVisible());
+
+        this.renderRoiStats(
+            this.investmentsState.getVisible(),
+            this.collectionsState.getVisible()
+        );
+
+        const state = this.investmentsState.get();
+
+        if (Object.keys(state).length === 0) {
+            this.resetStats();
+        }
+        else {
+            await this.renderRoiStats(
+                this.investmentsState.getVisible(),
+                this.collectionsState.getVisible()
+            );
+        }
     }
 }

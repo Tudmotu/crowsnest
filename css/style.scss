@@ -277,13 +277,35 @@ input[type="text"] {
     padding:1rem var(--page-padding);
     margin-top:2rem;
     display:flex;
-    justify-content:space-between;
     align-items:center;
 }
 
 #portfolioSettings h2 {
     color:var(-c--main);
     margin:0;
+}
+
+#portfolioSettings > :not(.checkbox) {
+    margin-right:1rem;
+}
+
+#portfolioSettings .checkbox {
+    margin-left:auto;
+}
+
+#refreshIndicator {
+    fill:var(--c-white);
+    width:1.25rem;
+    animation:spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }
 
 #collectionList {
