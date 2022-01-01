@@ -285,11 +285,15 @@ input[type="text"] {
     margin:0;
 }
 
-#portfolioSettings > :not(.checkbox) {
-    margin-right:1rem;
+#refreshPanel {
+    margin-left:1rem;
 }
 
-#portfolioSettings .checkbox {
+#refreshCollections {
+    margin-left:1rem;
+}
+
+#settingsPanel {
     margin-left:auto;
 }
 
@@ -735,5 +739,24 @@ a {
         max-width:100vw;
         height:100vh;
         max-height:100vh;
+    }
+
+    #portfolioSettings {
+        flex-direction:column;
+    }
+
+    #portfolioSettings > .panel {
+        margin:0;
+        margin-bottom:.5rem;
+        width:100%;
+    }
+
+    #refreshPanel {
+        display:flex;
+        align-items:center;
+    }
+
+    #refreshCollections {
+        margin-left:auto;
     }
 }
