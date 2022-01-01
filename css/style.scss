@@ -293,6 +293,10 @@ input[type="text"] {
     margin-left:auto;
 }
 
+#lastUpdateLabel {
+    color:var(--c-blue-grey);
+}
+
 #refreshIndicator {
     fill:var(--c-white);
     width:1.25rem;

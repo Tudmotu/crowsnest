@@ -147,6 +147,10 @@ export class App {
             this.statsComponent.resumeRendering()
         ]);
 
+        const formatter = new Intl.DateTimeFormat('default', {
+            timeStyle: 'short'
+        });
+        window.lastUpdate.textContent = formatter.format(new Date());
         window.refreshIndicator.classList.add('hidden');
     }
 };
