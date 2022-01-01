@@ -56,9 +56,18 @@ layout: default
         </div>
     </section>
     <section id="portfolioSettings" class="hidden">
-        <h2>Collections</h2>
-        {% include components/checkbox.html
-            name="showHiddenCheckbox" label="Show hidden collections" %}
+        <h2 class="panel">Collections</h2>
+        <div class="panel" id="refreshPanel">
+            <span id="lastUpdateLabel">
+                Last Updated: <span id="lastUpdate"></span>
+            </span>
+            <button id="refreshCollections">Refresh</button>
+            {% include assets/refresh.svg id="refreshIndicator" class="hidden" %}
+        </div>
+        <div class="panel" id="settingsPanel">
+            {% include components/checkbox.html
+                name="showHiddenCheckbox" label="Show hidden collections" %}
+        </div>
     </section>
     <section id="collectionList" class="hidden">
     </section>

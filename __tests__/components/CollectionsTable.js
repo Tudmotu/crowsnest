@@ -76,7 +76,7 @@ describe('CollectionsTable component', () => {
     });
 
     test('should invoke salesTab.open() and remove container when sales button clicked', async () => {
-        jest.spyOn(table.salesTab, 'open');
+        jest.spyOn(table.salesTab, 'open').mockImplementation(() => {});
 
         await table.render(collections);
         getCell('collectionA', 'menu').click();

@@ -75,6 +75,8 @@ export class CollectionsTable {
     }
 
     async render (collections) {
+        if (this.renderingPaused) return;
+
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         this.el.innerHTML = `
@@ -161,6 +163,8 @@ export class CollectionsTable {
     }
 
     renderROIs (investments, collections) {
+        if (this.renderingPaused) return;
+
         const ethLogo = `<img src="./eth.svg" class="ethLogo" />`;
 
         Object.entries(investments).forEach(([slug, data]) => {
@@ -202,5 +206,19 @@ export class CollectionsTable {
             getCell('gas').innerHTML = `${ethLogo}${gas.toFixed(2)}`;
             getCell('fees').innerHTML = `${ethLogo}${fees.toFixed(2)}`;
         });
+    }
+
+    pauseRendering () {
+        this.renderingPaused = true;
+    }
+
+    async resumeRendering () {
+        this.renderingPaused = false;
+
+        const collections = CollectionsState.get();
+        const investments = InvestmentsState.get();
+
+        await this.render(collections);
+        await this.renderROIs(investments, collections);
     }
 }

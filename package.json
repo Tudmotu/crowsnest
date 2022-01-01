@@ -6,7 +6,9 @@
   "jest": {
     "testEnvironment": "jsdom",
     "transformIgnorePatterns": [],
-    "modulePathIgnorePatterns": ["<rootDir>/_site/"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/_site/"
+    ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
     ]
@@ -26,6 +28,7 @@
     "@testing-library/jest-dom": "5.14.1",
     "babel-jest": "27.2.4",
     "canvas": "2.8.0",
+    "get-random-values": "1.2.2",
     "http-server": "13.0.2",
     "jest": "27.2.4"
   },

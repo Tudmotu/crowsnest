@@ -38,6 +38,23 @@ export class App {
             PortfolioSettings.toggleHidden(e.target.checked);
         });
 
+        document.getElementById('refreshCollections').addEventListener('click', e => {
+            this.refreshCollections();
+        });
+
+        let interval;
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                interval = setInterval(async () => {
+                    await this.refreshCollections();
+                }, 1000 * 60 * 30);
+            }
+            else {
+                clearInterval(interval);
+                interval = null;
+            }
+        });
+
         this.errorToast = new ErrorToast(GlobalErrorState);
     }
 
@@ -97,15 +114,29 @@ export class App {
 
         await InvestmentsState.set({});
         await CollectionsState.set([]);
+        await AccountState.setAddress(address);
 
-        AccountState.setAddress(address);
+        window.mainLoader.classList.remove('hidden');
+        await this.refreshCollections();
+        window.mainLoader.classList.add('hidden');
+
+        window.stats.classList.remove('hidden');
+        window.collectionList.classList.remove('hidden');
+        window.portfolioSettings.classList.remove('hidden');
+    }
+
+    async refreshCollections () {
+        window.refreshIndicator.classList.remove('hidden');
+
+        const { address } = await AccountState.get();
         const collectionsRequest = opensea.getCollections(address);
         const investmentsRequest = Trades.getInvestmentStats(address, this.provider);
 
+        this.tableComponent.pauseRendering();
+        this.statsComponent.pauseRendering();
+
         InvestmentsState.set(investmentsRequest);
         CollectionsState.set(collectionsRequest);
-
-        window.mainLoader.classList.remove('hidden');
 
         try {
             const collections = await collectionsRequest;
@@ -120,14 +151,19 @@ export class App {
             }
         }
         catch (e) {
-            console.error('Failed loading collections:', e.message);
             GlobalErrorState.set('Failed while fetching collections from OpenSea API. Please try refreshing the page.');
-            return;
+            throw new Error(`Failed loading collections: ${e.message}`);
         }
 
-        window.mainLoader.classList.add('hidden');
-        window.stats.classList.remove('hidden');
-        window.collectionList.classList.remove('hidden');
-        window.portfolioSettings.classList.remove('hidden');
+        await Promise.all([
+            this.tableComponent.resumeRendering(),
+            this.statsComponent.resumeRendering()
+        ]);
+
+        const formatter = new Intl.DateTimeFormat('default', {
+            timeStyle: 'short'
+        });
+        window.lastUpdate.textContent = formatter.format(new Date());
+        window.refreshIndicator.classList.add('hidden');
     }
 };
