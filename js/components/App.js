@@ -42,6 +42,19 @@ export class App {
             this.refreshCollections();
         });
 
+        let interval;
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                interval = setInterval(async () => {
+                    await this.refreshCollections();
+                }, 1000 * 60 * 30);
+            }
+            else {
+                clearInterval(interval);
+                interval = null;
+            }
+        });
+
         this.errorToast = new ErrorToast(GlobalErrorState);
     }
 
