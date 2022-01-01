@@ -198,17 +198,5 @@ export class PortfolioStats {
             this.investmentsState.getVisible(),
             this.collectionsState.getVisible()
         );
-
-        const state = this.investmentsState.get();
-
-        if (Object.keys(state).length === 0) {
-            this.resetStats();
-        }
-        else {
-            await this.renderRoiStats(
-                this.investmentsState.getVisible(),
-                this.collectionsState.getVisible()
-            );
-        }
     }
 }

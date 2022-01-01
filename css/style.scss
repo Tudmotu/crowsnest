@@ -287,6 +287,8 @@ input[type="text"] {
 
 #refreshPanel {
     margin-left:1rem;
+    display:flex;
+    align-items:center;
 }
 
 #refreshCollections {
@@ -305,6 +307,7 @@ input[type="text"] {
     fill:var(--c-white);
     width:1.25rem;
     animation:spin 2s linear infinite;
+    margin-left:1rem;
 }
 
 @keyframes spin {
