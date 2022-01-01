@@ -112,6 +112,7 @@ describe('opensea module', () => {
         });
 
         it('should send request with supplied url', () => {
+            global.fetch.mockResolvedValueOnce({ ok: true, json: ()=> {} });
             opensea.failsafeRequest('aaa');
 
             expect(global.fetch).toHaveBeenCalledWith('aaa', {
