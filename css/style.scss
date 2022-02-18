@@ -697,7 +697,20 @@ a {
         border-left:0;
         border-right:0;
         width:100vw;
-        grid-template-columns:4rem 5rem 240px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px;
+        grid-template-columns:2rem 2rem 8rem 3rem repeat(11, 70px);
+        font-size:0.75rem;
+    }
+
+    #collectionList .thumbnail img {
+        width:2rem;
+        height:2rem;
+        margin-left:0;
+        margin-right:0;
+    }
+
+    #app #collectionList .collectionMenuButton,
+    #app #collectionList .collectionMenuButton + a.thumbnail {
+        padding:0;
     }
 
     #controls {
@@ -764,5 +777,12 @@ a {
 
     #refreshCollections {
         margin-left:auto;
+    }
+
+    .ethLogo {
+        width: 0.5em;
+        height: 0.5em;
+        min-width: 0.75rem;
+        min-height: 0.75rem;
     }
 }
