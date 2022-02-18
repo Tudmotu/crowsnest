@@ -33,7 +33,7 @@ body {
     --c-accent:var(--c-yellow);
     --c-text:var(--c-white);
     --c-border:var(--c-light-grey);
-    --page-padding:2rem;
+    --page-padding:1rem;
 
     position:relative;
     margin:0;
@@ -114,9 +114,11 @@ input[type="text"] {
 }
 
 #pageHeader {
+    @include card;
+    background:var(--c-dark-grey);
     display:flex;
     align-items:center;
-    padding:2rem 0;
+    padding:2rem var(--page-padding);
     margin:1rem var(--page-padding);
 }
 
@@ -678,6 +680,10 @@ a {
 }
 
 @media (max-width: 960px) {
+    :root {
+        font-size:12px;
+    }
+
     body {
         --page-padding:1rem;
     }
@@ -697,13 +703,10 @@ a {
         border-left:0;
         border-right:0;
         width:100vw;
-        grid-template-columns:2rem 2rem 8rem 3rem repeat(11, 70px);
-        font-size:0.75rem;
+        grid-template-columns:3rem 3rem 10rem 4rem repeat(11, 6rem);
     }
 
     #collectionList .thumbnail img {
-        width:2rem;
-        height:2rem;
         margin-left:0;
         margin-right:0;
     }
@@ -777,12 +780,5 @@ a {
 
     #refreshCollections {
         margin-left:auto;
-    }
-
-    .ethLogo {
-        width: 0.5em;
-        height: 0.5em;
-        min-width: 0.75rem;
-        min-height: 0.75rem;
     }
 }
