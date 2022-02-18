@@ -3,6 +3,7 @@
 ---
 
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+@import 'components/tokensTab';
 @import 'card';
 @import 'checkbox';
 
@@ -30,6 +31,8 @@ body {
 
     --c-bg:var(--c-black);
     --c-accent:var(--c-yellow);
+    --c-text:var(--c-white);
+    --c-border:var(--c-light-grey);
     --page-padding:2rem;
 
     position:relative;
@@ -493,7 +496,7 @@ input[type="text"] {
     border-bottom:solid 1px var(--c-light-grey);
 }
 
-#salesTabContainer {
+.paneContainer {
     position:fixed;
     width:100vw;
     height:100vh;
@@ -503,7 +506,7 @@ input[type="text"] {
     justify-content:center;
 }
 
-#salesTabPane {
+.pane {
     position:relative;
     width:30rem;
     max-width:92vw;
@@ -521,7 +524,7 @@ input[type="text"] {
     padding-bottom:4rem;
 }
 
-#salesTabPane > header {
+.pane > header {
     display:flex;
     align-items:center;
     justify-content:center;
@@ -531,7 +534,7 @@ input[type="text"] {
     top:0;
 }
 
-#salesTabPane > header > img {
+.pane > header > img {
     width: 3rem;
     height: 3rem;
     border-radius: .5rem;
@@ -539,7 +542,7 @@ input[type="text"] {
     margin-right:1rem;
 }
 
-#salesTabCloseButton {
+.pane .closeButton {
     position:absolute;
     top:0;
     left:0;
@@ -552,15 +555,15 @@ input[type="text"] {
     cursor:pointer;
 }
 
-#salesTabPane > header + h2 {
+.pane > header + h2 {
     margin-top:0;
 }
 
-#salesTabPane > * {
+.pane > * {
     padding:0 2rem;
 }
 
-#salesTabPane h2 {
+.pane h2 {
     border-top:solid 1px var(--c-light-grey);
     padding-top:1rem;
 }

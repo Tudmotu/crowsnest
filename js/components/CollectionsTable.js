@@ -1,4 +1,5 @@
 import { SalesTab } from './SalesTab.js';
+import { TokensTab } from './TokensTab.js';
 import * as Icons from '../icons.js';
 import { CollectionsState } from '../state/CollectionsState.js';
 import { InvestmentsState } from '../state/InvestmentsState.js';
@@ -19,6 +20,7 @@ export class CollectionsTable {
                 container.id = 'collectionListMenuContainer';
                 container.innerHTML = `
                     <div id="collectionListMenu" style="top:${top}px;left:${left}px">
+                        <div data-action="mine">Owned NFTs ${Icons.imagePlaceholder}</div>
                         <div data-action="sales">Sales Data ${Icons.barChart}</div>
                         <div data-action="hide">
                             ${hidden === 'true' ? 'Unhide' : 'Hide'}
@@ -34,6 +36,10 @@ export class CollectionsTable {
 
                 container.addEventListener('click', e => {
                     document.body.removeChild(container);
+                });
+
+                container.querySelector('[data-action=mine]').addEventListener('click', e => {
+                    this.tokensTab.open(collection, name, thumbnail);
                 });
 
                 container.querySelector('[data-action=sales]').addEventListener('click', e => {
@@ -54,6 +60,7 @@ export class CollectionsTable {
         });
 
         this.salesTab = new SalesTab(window.body);
+        this.tokensTab = new TokensTab(window.body);
 
         CollectionsState.subscribe(async () => {
             const collections = CollectionsState.get();
