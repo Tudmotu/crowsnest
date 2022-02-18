@@ -33,7 +33,7 @@ body {
     --c-accent:var(--c-yellow);
     --c-text:var(--c-white);
     --c-border:var(--c-light-grey);
-    --page-padding:2rem;
+    --page-padding:1rem;
 
     position:relative;
     margin:0;
@@ -114,9 +114,11 @@ input[type="text"] {
 }
 
 #pageHeader {
+    @include card;
+    background:var(--c-dark-grey);
     display:flex;
     align-items:center;
-    padding:2rem 0;
+    padding:2rem var(--page-padding);
     margin:1rem var(--page-padding);
 }
 
@@ -678,6 +680,10 @@ a {
 }
 
 @media (max-width: 960px) {
+    :root {
+        font-size:12px;
+    }
+
     body {
         --page-padding:1rem;
     }
@@ -697,7 +703,17 @@ a {
         border-left:0;
         border-right:0;
         width:100vw;
-        grid-template-columns:4rem 5rem 240px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px;
+        grid-template-columns:3rem 3rem 10rem 4rem repeat(11, 6rem);
+    }
+
+    #collectionList .thumbnail img {
+        margin-left:0;
+        margin-right:0;
+    }
+
+    #app #collectionList .collectionMenuButton,
+    #app #collectionList .collectionMenuButton + a.thumbnail {
+        padding:0;
     }
 
     #controls {
