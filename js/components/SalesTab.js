@@ -12,6 +12,7 @@ export class SalesTab {
 
         this.container = document.createElement('div');
         this.container.id = 'salesTabContainer';
+        this.container.classList.add('paneContainer');
 
         document.body.appendChild(this.container);
 
@@ -24,9 +25,9 @@ export class SalesTab {
         });
 
         this.container.innerHTML = `
-            <div id="salesTabPane">
+            <div id="salesTabPane" class="pane">
                 <header>
-                    <div id="salesTabCloseButton">&times;</div>
+                    <div id="salesTabCloseButton" class="closeButton">&times;</div>
                     <img src="${thumbnail}" />
                     <h1>${name}</h1>
                 </header>

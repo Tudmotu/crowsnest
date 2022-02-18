@@ -37,8 +37,7 @@ async function api (endpoint, params) {
     return await failsafeRequest(url);
 }
 
-async function getInBatches (endpoint, params, dataProp) {
-    const batchSize = 300;
+async function getInBatches (endpoint, params, dataProp, batchSize = 300) {
     const fullResults = [];
     let currentPage = 0;
 
@@ -59,6 +58,13 @@ async function getInBatches (endpoint, params, dataProp) {
     }
 
     return fullResults;
+}
+
+export async function getOwnedAssets (owner, collection) {
+    return await getInBatches('assets', {
+        owner,
+        collection
+    }, 'assets', 50);
 }
 
 export async function getTransfers (userAddress) {
