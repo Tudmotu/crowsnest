@@ -37,6 +37,27 @@ async function api (endpoint, params) {
     return await failsafeRequest(url);
 }
 
+async function getWithCursor (endpoint, params, dataProp) {
+    const fullResults = [];
+    let response;
+    let hasNext = true;
+    let cursor;
+
+    while (hasNext) {
+        const fields = { ...params };
+        if (cursor) fields.cursor = cursor;
+        const response = await api(endpoint, fields);
+
+        const data = dataProp ? response[dataProp] : response;
+
+        fullResults.push(...data);
+        cursor = response.next;
+        hasNext = !!cursor;
+    }
+
+    return fullResults;
+}
+
 async function getInBatches (endpoint, params, dataProp, batchSize = 300) {
     const fullResults = [];
     let currentPage = 0;
@@ -68,14 +89,14 @@ export async function getOwnedAssets (owner, collection) {
 }
 
 export async function getTransfers (userAddress) {
-    return await getInBatches('events', {
+    return await getWithCursor('events', {
         account_address: userAddress,
         event_type: 'transfer'
     }, 'asset_events');
 }
 
 export async function getTrades (userAddress) {
-    return await getInBatches('events', {
+    return await getWithCursor('events', {
         account_address: userAddress,
         event_type: 'successful'
     }, 'asset_events');
@@ -114,25 +135,9 @@ export async function getSalesData (collectionSlug) {
     const oneDayAgo = Date.now() - 24 * anHourInMs;
     const occurredAfter = oneDayAgo;
 
-    const batchSize = 300;
-    const fullResults = [];
-    let currentPage = 1;
-
-    while (true) {
-        const data = await api('events', {
-            collection_slug: collectionSlug,
-            event_type: 'successful',
-            occurred_after: occurredAfter,
-            limit: batchSize,
-            offset: (currentPage - 1) * batchSize
-        });
-
-        fullResults.push(...data.asset_events);
-
-        if (data.asset_events.length < batchSize) break;
-
-        currentPage++;
-    }
-
-    return fullResults;
+    return await getWithCursor('events', {
+        account_address: userAddress,
+        occurred_after: occurredAfter,
+        event_type: 'transfer'
+    }, 'asset_events');
 }
